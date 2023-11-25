@@ -2,21 +2,20 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QFileDialog>
+#include <QTranslator>
+#include "ui_mainwindow.h"
+#include <filesystem>
+#include <string>
 
-namespace Ui {
-class MainWindow;
-}
-
-class MainWindow : public QMainWindow
+class MainWindow : public QMainWindow, protected Ui::MainWindow
 {
     Q_OBJECT
 
 public:
     explicit MainWindow(QWidget *parent = nullptr);
+    friend void start_proc(MainWindow *);
     ~MainWindow();
-
-private:
-    Ui::MainWindow *ui;
 };
 
 #endif // MAINWINDOW_H
