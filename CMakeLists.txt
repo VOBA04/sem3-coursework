@@ -20,8 +20,11 @@ set(PROJECT_SOURCES
         mainwindow.h
         mainwindow.ui
         image_processing.h
+        image_processing.cpp
         aspectratiopixmaplabel.h
         aspectratiopixmaplabel.cpp
+        utils.cpp
+        iconautosizepushbutton.h
 )
 
 qt_add_executable(photored

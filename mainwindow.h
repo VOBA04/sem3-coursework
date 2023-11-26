@@ -14,7 +14,8 @@ class MainWindow : public QMainWindow, protected Ui::MainWindow
 
 public:
     explicit MainWindow(QWidget *parent = nullptr);
-    friend void start_proc(MainWindow *);
+    friend void start_proc(MainWindow *, QString &);
+    friend void set_rec_opened_butts(MainWindow *);
     ~MainWindow();
 };
 
