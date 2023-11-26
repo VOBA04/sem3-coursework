@@ -1,9 +1,6 @@
 #include "mainwindow.h"
 #include "image_processing.h"
 
-#include <opencv2/core/core.hpp>
-#include <opencv2/highgui/highgui.hpp>
-
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
     setupUi(this);
@@ -13,6 +10,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     pushButton_Rec_open_3->hide();
     pushButton_Rec_open_4->hide();
     pushButton_Rec_open_5->hide();
+    pushButton_brightness->hide();
+    pushButton_clarity->hide();
+    pushButton_colorfulness->hide();
+    pushButton_contrast->hide();
+    pushButton_crop->hide();
+    pushButton_saturation->hide();
+    regulation->hide();
+    io_amount->hide();
     set_rec_opened_butts(this);
     QObject::connect(pushButton_New, &QPushButton::clicked, this, [&]()
                      { QString tmp; start_proc(this, tmp); });

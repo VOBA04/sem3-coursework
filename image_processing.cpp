@@ -3,39 +3,44 @@
 #include <QJsonDocument>
 #include <QJsonValue>
 
+#include <opencv2/core/core.hpp>
+#include <opencv2/highgui/highgui.hpp>
+
 namespace fs = std::filesystem;
 
 void start_proc(MainWindow *w, QString &QPath)
 {
-    QString Qpath;
+    QString Qpath_from;
     if (QPath.isEmpty())
     {
-        Qpath = QFileDialog::getOpenFileName(w, QObject::tr("Open file"), "D:\\", QObject::tr("Images (*.png *.jpg)"), nullptr, QFileDialog::DontUseNativeDialog);
-        for (int i = 0; i < Qpath.size(); i++)
+        Qpath_from = QFileDialog::getOpenFileName(w, QObject::tr("Open file"), "D:\\", QObject::tr("Images (*.png *.jpg)"), nullptr, QFileDialog::DontUseNativeDialog);
+        for (int i = 0; i < Qpath_from.size(); i++)
         {
-            if (Qpath[i] == '/')
-                Qpath[i] = '\\';
+            if (Qpath_from[i] == '/')
+                Qpath_from[i] = '\\';
         }
     }
     else
-        Qpath = QPath;
-    std::string path_from = Qpath.toStdString(), path_to;
-    std::string file_name;
-    for (auto it = path_from.rbegin(); *it != '\\'; it++)
-        file_name.push_back(*it);
-    std::reverse(file_name.begin(), file_name.end());
-    path_to = "image_in_processing\\" + file_name;
+        Qpath_from = QPath;
+    QString Qpath_to, Qfile_name;
+    for (auto it = Qpath_from.rbegin(); *it != '\\'; it++)
+        Qfile_name.push_back(*it);
+    std::reverse(Qfile_name.begin(), Qfile_name.end());
+    Qpath_to = "image_in_processing\\" + Qfile_name;
     fs::create_directory("image_in_processing");
-    fs::remove(path_to);
-    fs::copy_file(path_from, path_to);
-    QString Qpath_from = Qpath;
-    Qpath.clear();
-    for (auto it : path_to)
-        Qpath.push_back(it);
-    QPixmap qimage(Qpath);
+    QFile::remove(Qpath_to);
+    QFile image(Qpath_from);
+    image.copy(Qpath_to);
+    QPixmap Qimage(Qpath_to);
     w->label_greeting->hide();
-    w->label_image->setPixmap(qimage);
+    w->label_image->setPixmap(Qimage);
     w->label_image->show();
+    w->pushButton_brightness->show();
+    w->pushButton_clarity->show();
+    w->pushButton_colorfulness->show();
+    w->pushButton_contrast->show();
+    w->pushButton_crop->show();
+    w->pushButton_saturation->show();
     QFile file;
     file.setFileName("D:\\University\\cs\\sem3\\cursach\\photored\\recently_opened.json");
     file.open(QIODevice::ReadWrite);
@@ -63,4 +68,8 @@ void start_proc(MainWindow *w, QString &QPath)
         file.write(s.toUtf8());
     }
     file.close();
+}
+
+void image_brightness()
+{
 }

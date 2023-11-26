@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>832</width>
     <height>600</height>
    </rect>
   </property>
@@ -153,6 +153,81 @@
       </property>
      </widget>
     </item>
+    <item row="1" column="4">
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QPushButton" name="pushButton_brightness">
+        <property name="text">
+         <string>PushButton</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_contrast">
+        <property name="text">
+         <string>PushButton</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_saturation">
+        <property name="text">
+         <string>PushButton</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_clarity">
+        <property name="text">
+         <string>PushButton</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_colorfulness">
+        <property name="text">
+         <string>PushButton</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_crop">
+        <property name="text">
+         <string>PushButton</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QTextEdit" name="io_amount">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>30</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="1" column="2">
+     <widget class="QSlider" name="regulation">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+     </widget>
+    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -160,7 +235,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>832</width>
      <height>26</height>
     </rect>
    </property>
@@ -290,12 +365,12 @@
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>349</x>
-     <y>76</y>
+     <x>474</x>
+     <y>139</y>
     </hint>
     <hint type="destinationlabel">
      <x>174</x>
-     <y>80</y>
+     <y>143</y>
     </hint>
    </hints>
   </connection>
@@ -306,8 +381,8 @@
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>308</x>
-     <y>100</y>
+     <x>433</x>
+     <y>163</y>
     </hint>
     <hint type="destinationlabel">
      <x>133</x>
@@ -326,8 +401,8 @@
      <y>109</y>
     </hint>
     <hint type="destinationlabel">
-     <x>293</x>
-     <y>276</y>
+     <x>418</x>
+     <y>318</y>
     </hint>
    </hints>
   </connection>
@@ -338,8 +413,8 @@
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>101</y>
+     <x>441</x>
+     <y>164</y>
     </hint>
     <hint type="destinationlabel">
      <x>144</x>
@@ -354,12 +429,12 @@
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>309</x>
-     <y>107</y>
+     <x>434</x>
+     <y>170</y>
     </hint>
     <hint type="destinationlabel">
-     <x>315</x>
-     <y>408</y>
+     <x>440</x>
+     <y>429</y>
     </hint>
    </hints>
   </connection>
@@ -370,8 +445,8 @@
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>328</x>
-     <y>81</y>
+     <x>453</x>
+     <y>144</y>
     </hint>
     <hint type="destinationlabel">
      <x>367</x>
@@ -406,8 +481,8 @@
      <y>310</y>
     </hint>
     <hint type="destinationlabel">
-     <x>247</x>
-     <y>181</y>
+     <x>372</x>
+     <y>244</y>
     </hint>
    </hints>
   </connection>
@@ -422,8 +497,8 @@
      <y>302</y>
     </hint>
     <hint type="destinationlabel">
-     <x>232</x>
-     <y>332</y>
+     <x>357</x>
+     <y>374</y>
     </hint>
    </hints>
   </connection>
@@ -454,8 +529,8 @@
      <y>346</y>
     </hint>
     <hint type="destinationlabel">
-     <x>301</x>
-     <y>435</y>
+     <x>426</x>
+     <y>456</y>
     </hint>
    </hints>
   </connection>
@@ -482,8 +557,8 @@
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>274</x>
-     <y>308</y>
+     <x>399</x>
+     <y>350</y>
     </hint>
     <hint type="destinationlabel">
      <x>125</x>
@@ -498,12 +573,12 @@
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>286</x>
-     <y>285</y>
+     <x>411</x>
+     <y>327</y>
     </hint>
     <hint type="destinationlabel">
-     <x>276</x>
-     <y>166</y>
+     <x>401</x>
+     <y>229</y>
     </hint>
    </hints>
   </connection>
@@ -514,8 +589,8 @@
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>291</x>
-     <y>312</y>
+     <x>416</x>
+     <y>354</y>
     </hint>
     <hint type="destinationlabel">
      <x>161</x>
@@ -530,12 +605,12 @@
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>285</x>
-     <y>333</y>
+     <x>410</x>
+     <y>375</y>
     </hint>
     <hint type="destinationlabel">
      <x>166</x>
-     <y>406</y>
+     <y>427</y>
     </hint>
    </hints>
   </connection>
@@ -546,12 +621,12 @@
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>294</x>
-     <y>329</y>
+     <x>419</x>
+     <y>371</y>
     </hint>
     <hint type="destinationlabel">
-     <x>287</x>
-     <y>453</y>
+     <x>412</x>
+     <y>474</y>
     </hint>
    </hints>
   </connection>
@@ -562,8 +637,8 @@
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>266</x>
-     <y>299</y>
+     <x>391</x>
+     <y>341</y>
     </hint>
     <hint type="destinationlabel">
      <x>353</x>
@@ -598,8 +673,8 @@
      <y>463</y>
     </hint>
     <hint type="destinationlabel">
-     <x>293</x>
-     <y>119</y>
+     <x>418</x>
+     <y>182</y>
     </hint>
    </hints>
   </connection>
@@ -630,8 +705,8 @@
      <y>504</y>
     </hint>
     <hint type="destinationlabel">
-     <x>281</x>
-     <y>348</y>
+     <x>406</x>
+     <y>390</y>
     </hint>
    </hints>
   </connection>
@@ -646,8 +721,8 @@
      <y>461</y>
     </hint>
     <hint type="destinationlabel">
-     <x>224</x>
-     <y>461</y>
+     <x>349</x>
+     <y>482</y>
     </hint>
    </hints>
   </connection>
@@ -674,8 +749,8 @@
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>306</x>
-     <y>530</y>
+     <x>431</x>
+     <y>551</y>
     </hint>
     <hint type="destinationlabel">
      <x>52</x>
@@ -722,12 +797,12 @@
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>332</x>
-     <y>490</y>
+     <x>457</x>
+     <y>511</y>
     </hint>
     <hint type="destinationlabel">
-     <x>241</x>
-     <y>372</y>
+     <x>366</x>
+     <y>406</y>
     </hint>
    </hints>
   </connection>
@@ -738,8 +813,8 @@
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>329</x>
-     <y>511</y>
+     <x>454</x>
+     <y>532</y>
     </hint>
     <hint type="destinationlabel">
      <x>166</x>
@@ -760,6 +835,86 @@
     <hint type="destinationlabel">
      <x>339</x>
      <y>494</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_brightness</sender>
+   <signal>clicked()</signal>
+   <receiver>regulation</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>735</x>
+     <y>156</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>682</x>
+     <y>151</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_contrast</sender>
+   <signal>clicked()</signal>
+   <receiver>regulation</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>707</x>
+     <y>221</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>680</x>
+     <y>224</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_saturation</sender>
+   <signal>clicked()</signal>
+   <receiver>regulation</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>715</x>
+     <y>292</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>674</x>
+     <y>296</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_clarity</sender>
+   <signal>clicked()</signal>
+   <receiver>regulation</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>708</x>
+     <y>362</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>677</x>
+     <y>369</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_colorfulness</sender>
+   <signal>clicked()</signal>
+   <receiver>regulation</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>720</x>
+     <y>444</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>679</x>
+     <y>440</y>
     </hint>
    </hints>
   </connection>

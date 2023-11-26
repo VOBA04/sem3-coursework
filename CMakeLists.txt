@@ -25,6 +25,7 @@ set(PROJECT_SOURCES
         aspectratiopixmaplabel.cpp
         utils.cpp
         iconautosizepushbutton.h
+        workerthread.h
 )
 
 qt_add_executable(photored
