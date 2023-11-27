@@ -4,6 +4,8 @@
 #include <cstdlib>
 #include <iostream>
 
+#include "image_processing.h"
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);

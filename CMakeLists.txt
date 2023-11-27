@@ -26,6 +26,7 @@ set(PROJECT_SOURCES
         utils.cpp
         iconautosizepushbutton.h
         workerthread.h
+        workerthread.cpp
 )
 
 qt_add_executable(photored

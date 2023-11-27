@@ -6,28 +6,180 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>832</width>
+    <width>839</width>
     <height>600</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Photored</string>
+   <string notr="true">Photored</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_2">
-    <item row="1" column="1">
-     <widget class="AspectRatioPixmapLabel" name="label_image">
-      <property name="enabled">
-       <bool>true</bool>
+    <item row="1" column="4">
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <property name="sizeConstraint">
+       <enum>QLayout::SetNoConstraint</enum>
+      </property>
+      <item>
+       <widget class="QPushButton" name="pushButton_brightness">
+        <property name="minimumSize">
+         <size>
+          <width>100</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Brightness</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_contrast">
+        <property name="minimumSize">
+         <size>
+          <width>100</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Contrast</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_saturation">
+        <property name="minimumSize">
+         <size>
+          <width>100</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Saturation</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_clarity">
+        <property name="minimumSize">
+         <size>
+          <width>100</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Clarity</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_colorfulness">
+        <property name="minimumSize">
+         <size>
+          <width>100</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Colorfulness</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_crop">
+        <property name="minimumSize">
+         <size>
+          <width>100</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Crop</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="out_amount">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="0" column="0">
+     <widget class="QLabel" name="label_greeting">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>80</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>25</pointsize>
+        <kerning>true</kerning>
+       </font>
       </property>
       <property name="styleSheet">
        <string notr="true"/>
       </property>
       <property name="text">
-       <string/>
+       <string>Open new image or recenly opened</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
+      </property>
+      <property name="wordWrap">
+       <bool>false</bool>
+      </property>
+      <property name="margin">
+       <number>0</number>
       </property>
      </widget>
     </item>
@@ -122,99 +274,6 @@
       </item>
      </layout>
     </item>
-    <item row="0" column="0">
-     <widget class="QLabel" name="label_greeting">
-      <property name="maximumSize">
-       <size>
-        <width>16777215</width>
-        <height>80</height>
-       </size>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>25</pointsize>
-        <kerning>true</kerning>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true"/>
-      </property>
-      <property name="text">
-       <string>Open new image or recenly opened</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-      <property name="wordWrap">
-       <bool>false</bool>
-      </property>
-      <property name="margin">
-       <number>0</number>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="4">
-     <layout class="QVBoxLayout" name="verticalLayout">
-      <item>
-       <widget class="QPushButton" name="pushButton_brightness">
-        <property name="text">
-         <string>PushButton</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="pushButton_contrast">
-        <property name="text">
-         <string>PushButton</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="pushButton_saturation">
-        <property name="text">
-         <string>PushButton</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="pushButton_clarity">
-        <property name="text">
-         <string>PushButton</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="pushButton_colorfulness">
-        <property name="text">
-         <string>PushButton</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="pushButton_crop">
-        <property name="text">
-         <string>PushButton</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QTextEdit" name="io_amount">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>30</height>
-         </size>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
     <item row="1" column="2">
      <widget class="QSlider" name="regulation">
       <property name="sizePolicy">
@@ -223,8 +282,39 @@
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
+      <property name="maximumSize">
+       <size>
+        <width>20</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="minimum">
+       <number>0</number>
+      </property>
+      <property name="maximum">
+       <number>101</number>
+      </property>
+      <property name="tracking">
+       <bool>false</bool>
+      </property>
       <property name="orientation">
        <enum>Qt::Vertical</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="AspectRatioPixmapLabel" name="label_image">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
       </property>
      </widget>
     </item>
@@ -235,7 +325,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>832</width>
+     <width>839</width>
      <height>26</height>
     </rect>
    </property>
@@ -273,8 +363,8 @@
      <y>136</y>
     </hint>
     <hint type="destinationlabel">
-     <x>347</x>
-     <y>136</y>
+     <x>677</x>
+     <y>237</y>
     </hint>
    </hints>
   </connection>
@@ -289,8 +379,8 @@
      <y>136</y>
     </hint>
     <hint type="destinationlabel">
-     <x>347</x>
-     <y>314</y>
+     <x>677</x>
+     <y>406</y>
     </hint>
    </hints>
   </connection>
@@ -337,8 +427,8 @@
      <y>136</y>
     </hint>
     <hint type="destinationlabel">
-     <x>347</x>
-     <y>491</y>
+     <x>677</x>
+     <y>562</y>
     </hint>
    </hints>
   </connection>
@@ -397,8 +487,8 @@
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>345</x>
-     <y>109</y>
+     <x>677</x>
+     <y>210</y>
     </hint>
     <hint type="destinationlabel">
      <x>418</x>
@@ -765,8 +855,8 @@
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>345</x>
-     <y>487</y>
+     <x>677</x>
+     <y>562</y>
     </hint>
     <hint type="destinationlabel">
      <x>377</x>
@@ -781,8 +871,8 @@
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>335</x>
-     <y>519</y>
+     <x>677</x>
+     <y>562</y>
     </hint>
     <hint type="destinationlabel">
      <x>29</x>
@@ -833,8 +923,8 @@
      <y>477</y>
     </hint>
     <hint type="destinationlabel">
-     <x>339</x>
-     <y>494</y>
+     <x>677</x>
+     <y>562</y>
     </hint>
    </hints>
   </connection>
@@ -849,8 +939,8 @@
      <y>156</y>
     </hint>
     <hint type="destinationlabel">
-     <x>682</x>
-     <y>151</y>
+     <x>718</x>
+     <y>251</y>
     </hint>
    </hints>
   </connection>
@@ -861,12 +951,12 @@
    <slot>show()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>707</x>
-     <y>221</y>
+     <x>819</x>
+     <y>219</y>
     </hint>
     <hint type="destinationlabel">
-     <x>680</x>
-     <y>224</y>
+     <x>718</x>
+     <y>324</y>
     </hint>
    </hints>
   </connection>
@@ -877,12 +967,12 @@
    <slot>show()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>715</x>
-     <y>292</y>
+     <x>819</x>
+     <y>282</y>
     </hint>
     <hint type="destinationlabel">
-     <x>674</x>
-     <y>296</y>
+     <x>718</x>
+     <y>396</y>
     </hint>
    </hints>
   </connection>
@@ -893,12 +983,12 @@
    <slot>show()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>708</x>
-     <y>362</y>
+     <x>819</x>
+     <y>345</y>
     </hint>
     <hint type="destinationlabel">
-     <x>677</x>
-     <y>369</y>
+     <x>718</x>
+     <y>469</y>
     </hint>
    </hints>
   </connection>
@@ -909,12 +999,108 @@
    <slot>show()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>720</x>
-     <y>444</y>
+     <x>819</x>
+     <y>408</y>
     </hint>
     <hint type="destinationlabel">
-     <x>679</x>
-     <y>440</y>
+     <x>718</x>
+     <y>540</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_brightness</sender>
+   <signal>clicked()</signal>
+   <receiver>out_amount</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>737</x>
+     <y>154</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>738</x>
+     <y>519</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_contrast</sender>
+   <signal>clicked()</signal>
+   <receiver>out_amount</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>775</x>
+     <y>215</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>756</x>
+     <y>519</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_saturation</sender>
+   <signal>clicked()</signal>
+   <receiver>out_amount</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>775</x>
+     <y>276</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>778</x>
+     <y>521</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_clarity</sender>
+   <signal>clicked()</signal>
+   <receiver>out_amount</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>795</x>
+     <y>345</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>794</x>
+     <y>518</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_colorfulness</sender>
+   <signal>clicked()</signal>
+   <receiver>out_amount</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>800</x>
+     <y>409</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>809</x>
+     <y>523</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_crop</sender>
+   <signal>clicked()</signal>
+   <receiver>out_amount</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>815</x>
+     <y>469</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>822</x>
+     <y>520</y>
     </hint>
    </hints>
   </connection>
