@@ -1,32 +1,37 @@
 #include "image_processing.h"
 
-// сделать, чтобы у изображение на вход тоже всё-таки было фиксированное название
-
-void Oper_brightness::exec()
+Mat Oper_brightness::exec()
 {
-    Mat image = imread(input_image_path);
     image.convertTo(image, -1, 1, value);
-    imwrite(output_image_path, image);
+    return image;
 }
 
-void Oper_contrast::exec()
+Mat Oper_contrast::exec()
 {
-    Mat image = imread(input_image_path);
-    double alpha;
-    if (value < 0)
-        alpha = 1.0 / (-value);
-    if (value == 0)
-        alpha = 1;
-    image.convertTo(image, -1, value, 0);
-    imwrite(output_image_path, image);
+    double alpha = 1;
+    alpha += value / 100.0;
+    image.convertTo(image, -1, alpha, 0);
+    return image;
 }
 
-void Oper_saturation::exec()
+Mat Oper_saturation::exec()
 {
-    Mat image = imread(input_image_path);
     cvtColor(image, image, COLOR_BGR2HSV);
-    for (int i = 0; i < image.rows; i++)
+    /* for (int i = 0; i < image.rows; i++)
         for (int j = 0; j < image.cols; j++)
-            image.at<Vec3b>(i, j)[0] += value;
-    imwrite(output_image_path, image);
+            image.at<Vec3b>(i, j)[0] += value; */
+    image.forEach<Pixel>([&](Pixel &p, const int *position) -> void
+                         { p.y += value; });
+    cvtColor(image, image, COLOR_HSV2BGR);
+    return image;
+}
+
+Mat Oper_clarity::exec()
+{
+    return image;
+}
+
+Mat Oper_colorfulness::exec()
+{
+    return image;
 }

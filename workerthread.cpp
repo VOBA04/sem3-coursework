@@ -8,12 +8,12 @@ void MyThread::run()
         {
             if (isInterruptionRequested())
                 return;
-            msleep(100);
+            msleep(10);
         }
         Operation *oper_now = queue.front();
         queue.pop();
-        oper_now->exec();
-        emit signalGUI();
+        cv::Mat image = oper_now->exec();
+        emit signalGUI(image);
     }
 }
 

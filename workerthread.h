@@ -5,6 +5,7 @@
 #include <queue>
 #include "mainwindow.h"
 #include "image_processing.h"
+#include <opencv2/core/core.hpp>
 
 class MainWindow;
 class Operation;
@@ -20,7 +21,7 @@ public:
 protected:
     virtual void run();
 signals:
-    void signalGUI();
+    void signalGUI(cv::Mat);
 public slots:
     void terminateThread()
     {
