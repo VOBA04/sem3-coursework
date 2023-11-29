@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>839</width>
+    <width>906</width>
     <height>600</height>
    </rect>
   </property>
@@ -188,7 +188,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_colorfulness">
+       <widget class="QPushButton" name="pushButton_temperature">
         <property name="minimumSize">
          <size>
           <width>100</width>
@@ -202,7 +202,7 @@
          </size>
         </property>
         <property name="text">
-         <string>Colorfulness</string>
+         <string>Temperature</string>
         </property>
        </widget>
       </item>
@@ -224,6 +224,60 @@
          <string>Crop</string>
         </property>
        </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QPushButton" name="pushButton_left">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>20</horstretch>
+            <verstretch>20</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>35</width>
+            <height>35</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>35</width>
+            <height>35</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>left</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_right">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>35</width>
+            <height>35</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>35</width>
+            <height>35</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>right</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item>
        <widget class="QLabel" name="out_amount">
@@ -322,7 +376,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>839</width>
+     <width>906</width>
      <height>26</height>
     </rect>
    </property>
@@ -330,10 +384,27 @@
     <property name="title">
      <string>File</string>
     </property>
+    <addaction name="actionNew_image"/>
+    <addaction name="actionExport"/>
    </widget>
    <addaction name="menuFile"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionExport">
+   <property name="text">
+    <string>Export</string>
+   </property>
+  </action>
+  <action name="actionSave_as">
+   <property name="text">
+    <string>Save as...</string>
+   </property>
+  </action>
+  <action name="actionNew_image">
+   <property name="text">
+    <string>New image</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
@@ -927,12 +998,12 @@
    <slot>show()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>735</x>
-     <y>156</y>
+     <x>893</x>
+     <y>157</y>
     </hint>
     <hint type="destinationlabel">
-     <x>718</x>
-     <y>251</y>
+     <x>785</x>
+     <y>351</y>
     </hint>
    </hints>
   </connection>
@@ -947,8 +1018,8 @@
      <y>219</y>
     </hint>
     <hint type="destinationlabel">
-     <x>718</x>
-     <y>324</y>
+     <x>785</x>
+     <y>424</y>
     </hint>
    </hints>
   </connection>
@@ -963,8 +1034,8 @@
      <y>282</y>
     </hint>
     <hint type="destinationlabel">
-     <x>718</x>
-     <y>396</y>
+     <x>785</x>
+     <y>496</y>
     </hint>
    </hints>
   </connection>
@@ -979,13 +1050,13 @@
      <y>345</y>
     </hint>
     <hint type="destinationlabel">
-     <x>718</x>
-     <y>469</y>
+     <x>785</x>
+     <y>563</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>pushButton_colorfulness</sender>
+   <sender>pushButton_temperature</sender>
    <signal>clicked()</signal>
    <receiver>regulation</receiver>
    <slot>show()</slot>
@@ -995,8 +1066,8 @@
      <y>408</y>
     </hint>
     <hint type="destinationlabel">
-     <x>718</x>
-     <y>540</y>
+     <x>785</x>
+     <y>563</y>
     </hint>
    </hints>
   </connection>
@@ -1007,12 +1078,12 @@
    <slot>show()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>737</x>
-     <y>154</y>
+     <x>893</x>
+     <y>157</y>
     </hint>
     <hint type="destinationlabel">
-     <x>738</x>
-     <y>519</y>
+     <x>893</x>
+     <y>532</y>
     </hint>
    </hints>
   </connection>
@@ -1023,12 +1094,12 @@
    <slot>show()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>775</x>
-     <y>215</y>
+     <x>893</x>
+     <y>221</y>
     </hint>
     <hint type="destinationlabel">
-     <x>756</x>
-     <y>519</y>
+     <x>893</x>
+     <y>532</y>
     </hint>
    </hints>
   </connection>
@@ -1039,12 +1110,12 @@
    <slot>show()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>775</x>
-     <y>276</y>
+     <x>893</x>
+     <y>285</y>
     </hint>
     <hint type="destinationlabel">
-     <x>778</x>
-     <y>521</y>
+     <x>893</x>
+     <y>532</y>
     </hint>
    </hints>
   </connection>
@@ -1065,7 +1136,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>pushButton_colorfulness</sender>
+   <sender>pushButton_temperature</sender>
    <signal>clicked()</signal>
    <receiver>out_amount</receiver>
    <slot>show()</slot>

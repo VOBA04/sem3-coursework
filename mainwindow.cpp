@@ -10,7 +10,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     image_info.contrast = 0;
     image_info.saturation = 0;
     image_info.clarity = 0;
-    image_info.colorfulness = 0;
+    image_info.temperture = 0;
     graphicsScene->addItem(pixmap);
     graphicsView_main_im->hide();
     graphicsView_main_im->setScene(graphicsScene);
@@ -21,89 +21,87 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     pushButton_Rec_open_5->hide();
     pushButton_brightness->hide();
     pushButton_clarity->hide();
-    pushButton_colorfulness->hide();
+    pushButton_temperature->hide();
     pushButton_contrast->hide();
     pushButton_crop->hide();
     pushButton_saturation->hide();
     regulation->hide();
     out_amount->hide();
-    set_rec_opened_butts(this);
+    pushButton_left->hide();
+    pushButton_right->hide();
+    actionExport->setEnabled(false);
+    set_rec_opened_butts();
     mythread = new MyThread();
     QObject::connect(QApplication::instance(), &QApplication::aboutToQuit, mythread, &MyThread::terminateThread);
     mythread->start();
     QObject::connect(mythread, &MyThread::signalGUI, this, &MainWindow::change_image);
     QObject::connect(pushButton_New, &QPushButton::clicked, this, [&]()
-                     { QString tmp; start_proc(this, tmp); });
+                     { QString tmp; start_proc(tmp); });
     QObject::connect(pushButton_Rec_open_1, &QPushButton::clicked, this, [&]()
-                     { start_proc(this, pushButton_Rec_open_1->get_image_path()); });
+                     { start_proc(pushButton_Rec_open_1->get_image_path()); });
     QObject::connect(pushButton_Rec_open_2, &QPushButton::clicked, this, [&]()
-                     { start_proc(this, pushButton_Rec_open_2->get_image_path()); });
+                     { start_proc(pushButton_Rec_open_2->get_image_path()); });
     QObject::connect(pushButton_Rec_open_3, &QPushButton::clicked, this, [&]()
-                     { start_proc(this, pushButton_Rec_open_3->get_image_path()); });
+                     { start_proc(pushButton_Rec_open_3->get_image_path()); });
     QObject::connect(pushButton_Rec_open_4, &QPushButton::clicked, this, [&]()
-                     { start_proc(this, pushButton_Rec_open_4->get_image_path()); });
+                     { start_proc(pushButton_Rec_open_4->get_image_path()); });
     QObject::connect(pushButton_Rec_open_5, &QPushButton::clicked, this, [&]()
-                     { start_proc(this, pushButton_Rec_open_5->get_image_path()); });
+                     { start_proc(pushButton_Rec_open_5->get_image_path()); });
     QObject::connect(pushButton_brightness, &QPushButton::clicked, this, [&]()
-                     {  end_main_proc(this);
-                        this->set_curr_proc(PROCESSES::BRIGHTNESS);
-                        set_slider_limits(this); });
+                     {  end_main_proc();
+                        set_curr_proc(PROCESSES::BRIGHTNESS);
+                        set_slider_limits(); });
     QObject::connect(pushButton_contrast, &QPushButton::clicked, this, [&]()
-                     {  end_main_proc(this);
-                        this->set_curr_proc(PROCESSES::CONTRAST);
-                        set_slider_limits(this); });
+                     {  end_main_proc();
+                        set_curr_proc(PROCESSES::CONTRAST);
+                        set_slider_limits(); });
     QObject::connect(pushButton_saturation, &QPushButton::clicked, this, [&]()
-                     {  end_main_proc(this);
-                        this->set_curr_proc(PROCESSES::SATURATUIN);
-                        set_slider_limits(this); });
+                     {  end_main_proc();
+                        set_curr_proc(PROCESSES::SATURATUIN);
+                        set_slider_limits(); });
     QObject::connect(pushButton_clarity, &QPushButton::clicked, this, [&]()
-                     {  end_main_proc(this);
-                        this->set_curr_proc(PROCESSES::CLARITY);
-                        set_slider_limits(this); });
-    QObject::connect(pushButton_colorfulness, &QPushButton::clicked, this, [&]()
-                     {  end_main_proc(this);
-                        this->set_curr_proc(PROCESSES::COLORFULNESS);
-                        set_slider_limits(this); });
+                     {  end_main_proc();
+                        set_curr_proc(PROCESSES::CLARITY);
+                        set_slider_limits(); });
+    QObject::connect(pushButton_temperature, &QPushButton::clicked, this, [&]()
+                     {  end_main_proc();
+                        set_curr_proc(PROCESSES::TEMPERATURE);
+                        set_slider_limits(); });
     QObject::connect(pushButton_crop, &QPushButton::clicked, this, [&]()
-                     {  end_main_proc(this);;
-                        this->set_curr_proc(PROCESSES::CROP); });
+                     {  end_main_proc();
+                        set_curr_proc(PROCESSES::CROP); });
     QObject::connect(regulation, SIGNAL(sliderMoved(int)), out_amount, SLOT(setNum(int)));
-    QObject::connect(regulation, &QSlider::sliderMoved, this, [&]()
-                     { main_proc(this); });
+    QObject::connect(regulation, &QSlider::sliderMoved, this, &MainWindow::main_proc);
+    QObject::connect(actionExport, &QAction::triggered, this, &MainWindow::save_image);
+    QObject::connect(actionNew_image, &QAction::triggered, this, &MainWindow::set_new_image);
+    QObject::connect(pushButton_left, &QPushButton::clicked, this, &MainWindow::rotate_left);
+    QObject::connect(pushButton_right, &QPushButton::clicked, this, &MainWindow::rotate_right);
 }
 
 MainWindow::~MainWindow()
 {
 }
 
-void MainWindow::set_curr_proc(PROCESSES n)
-{
-    current_process = n;
-}
-
-PROCESSES MainWindow::get_curr_proc()
-{
-    return current_process;
-}
-
 void MainWindow::change_image(cv::Mat cv_im)
 {
     QPixmap Qimage = QPixmap::fromImage(QtOcv::mat2Image(cv_im));
     pixmap->setPixmap(Qimage);
-    graphicsView_main_im->fitInView(pixmap, Qt::KeepAspectRatio);
+    // graphicsView_main_im->fitInView(pixmap, Qt::KeepAspectRatio);
 }
 
-void start_proc(MainWindow *w, QString &QPath)
+void MainWindow::start_proc(QString &QPath)
 {
     QString Qpath_from;
     if (QPath.isEmpty())
     {
-        Qpath_from = QFileDialog::getOpenFileName(w, QObject::tr("Open file"), "D:\\", QObject::tr("Images (*.png *.jpg)"), nullptr, QFileDialog::DontUseNativeDialog);
+        Qpath_from = QFileDialog::getOpenFileName(this, QObject::tr("Open file"), "D:\\", QObject::tr("Images (*.png *.jpg)"), nullptr /* , QFileDialog::DontUseNativeDialog */);
         for (int i = 0; i < Qpath_from.size(); i++)
         {
             if (Qpath_from[i] == '/')
                 Qpath_from[i] = '\\';
         }
+        if (Qpath_from.isEmpty())
+            return;
     }
     else
         Qpath_from = QPath;
@@ -121,17 +119,20 @@ void start_proc(MainWindow *w, QString &QPath)
     QFile image(Qpath_from);
     image.copy(Qpath_to);
     QPixmap Qimage(Qpath_to);
-    *(w->image_info.start_image) = Qimage;
-    w->graphicsView_main_im->show();
-    w->pixmap->setPixmap(Qimage);
-    w->graphicsView_main_im->fitInView(w->pixmap, Qt::KeepAspectRatio);
-    w->label_greeting->hide();
-    w->pushButton_brightness->show();
-    w->pushButton_clarity->show();
-    w->pushButton_colorfulness->show();
-    w->pushButton_contrast->show();
-    w->pushButton_crop->show();
-    w->pushButton_saturation->show();
+    *(image_info.start_image) = Qimage;
+    graphicsView_main_im->show();
+    pixmap->setPixmap(Qimage);
+    graphicsView_main_im->fitInView(pixmap, Qt::KeepAspectRatio);
+    label_greeting->hide();
+    pushButton_brightness->show();
+    pushButton_clarity->show();
+    pushButton_temperature->show();
+    pushButton_contrast->show();
+    pushButton_crop->show();
+    pushButton_saturation->show();
+    pushButton_left->show();
+    pushButton_right->show();
+    actionExport->setEnabled(true);
     QFile file;
     file.setFileName("D:\\University\\cs\\sem3\\cursach\\photored\\recently_opened.json");
     file.open(QIODevice::ReadWrite);
@@ -161,117 +162,109 @@ void start_proc(MainWindow *w, QString &QPath)
     file.close();
 }
 
-void set_slider_limits(MainWindow *w)
+void MainWindow::main_proc(int value)
 {
-    PROCESSES n = w->get_curr_proc();
-    w->out_amount->setNum(0);
-    if (n != PROCESSES::CLARITY)
-    {
-        w->regulation->setMinimum(-100);
-        w->regulation->setMaximum(100);
-    }
-    else
-    {
-        w->regulation->setMinimum(0);
-        w->regulation->setMaximum(100);
-    }
-    switch (n)
+    PROCESSES proc = get_curr_proc();
+    QPixmap image = *(image_info.start_image);
+    switch (proc)
     {
     case PROCESSES::BRIGHTNESS:
     {
-        w->regulation->setValue(w->image_info.brightness);
+        mythread->push(new Oper_brightness(value, QtOcv::image2Mat(image.toImage())));
         break;
     }
     case PROCESSES::CONTRAST:
     {
-        w->regulation->setValue(w->image_info.contrast);
+        mythread->push(new Oper_contrast(value, QtOcv::image2Mat(image.toImage())));
         break;
     }
     case PROCESSES::SATURATUIN:
     {
-        w->regulation->setValue(w->image_info.saturation);
+        mythread->push(new Oper_saturation(value, QtOcv::image2Mat(image.toImage())));
         break;
     }
     case PROCESSES::CLARITY:
     {
-        w->regulation->setValue(w->image_info.clarity);
+        mythread->push(new Oper_clarity(value, QtOcv::image2Mat(image.toImage())));
         break;
     }
-    case PROCESSES::COLORFULNESS:
+    case PROCESSES::TEMPERATURE:
     {
-        w->regulation->setValue(w->image_info.colorfulness);
+        mythread->push(new Oper_temperature(value, QtOcv::image2Mat(image.toImage())));
         break;
     }
     }
 }
 
-void main_proc(MainWindow *w)
+void MainWindow::end_main_proc()
 {
-    MyThread *thread = w->mythread;
-    PROCESSES proc = w->get_curr_proc();
-    int value = w->regulation->value();
-    QPixmap image = *(w->image_info.start_image);
+    PROCESSES proc = get_curr_proc();
+    int value = regulation->value();
+    *(image_info.start_image) = pixmap->pixmap();
     switch (proc)
     {
     case PROCESSES::BRIGHTNESS:
     {
-        thread->push(new Oper_brightness(value, QtOcv::image2Mat(image.toImage())));
+        image_info.brightness = value;
         break;
     }
     case PROCESSES::CONTRAST:
     {
-        thread->push(new Oper_contrast(value, QtOcv::image2Mat(image.toImage())));
+        image_info.contrast = value;
         break;
     }
     case PROCESSES::SATURATUIN:
     {
-        thread->push(new Oper_saturation(value, QtOcv::image2Mat(image.toImage())));
+        image_info.saturation = value;
         break;
     }
     case PROCESSES::CLARITY:
     {
-        thread->push(new Oper_clarity(value, QtOcv::image2Mat(image.toImage())));
+        image_info.clarity = value;
         break;
     }
-    case PROCESSES::COLORFULNESS:
+    case PROCESSES::TEMPERATURE:
     {
-        thread->push(new Oper_colorfulness(value, QtOcv::image2Mat(image.toImage())));
+        image_info.temperture = value;
         break;
     }
     }
 }
 
-void end_main_proc(MainWindow *w)
+void MainWindow::save_image()
 {
-    PROCESSES proc = w->get_curr_proc();
-    int value = w->regulation->value();
-    *(w->image_info.start_image) = w->pixmap->pixmap();
-    switch (proc)
+    QString filter = "PNG(*.png);;JPG(*.jpg)", selected_filter;
+    QString filename;
+    filename = filename.toUtf8();
+    filename = QFileDialog::getSaveFileName(this, QObject::tr("Save File"), "D:\\", filter, &selected_filter /* , QFileDialog::DontUseNativeDialog */);
+    if (!filename.isEmpty())
     {
-    case PROCESSES::BRIGHTNESS:
-    {
-        w->image_info.brightness = value;
-        break;
+        for (int i = 0; i < filename.size(); i++)
+            if (filename[i] == '/')
+                filename[i] = '\\';
+        cv::imwrite(filename.toStdString(), QtOcv::image2Mat(image_info.start_image->toImage()));
     }
-    case PROCESSES::CONTRAST:
-    {
-        w->image_info.contrast = value;
-        break;
-    }
-    case PROCESSES::SATURATUIN:
-    {
-        w->image_info.saturation = value;
-        break;
-    }
-    case PROCESSES::CLARITY:
-    {
-        w->image_info.clarity = value;
-        break;
-    }
-    case PROCESSES::COLORFULNESS:
-    {
-        w->image_info.colorfulness = value;
-        break;
-    }
-    }
+}
+
+void MainWindow::set_new_image()
+{
+    graphicsView_main_im->hide();
+    regulation->hide();
+    pushButton_brightness->hide();
+    pushButton_contrast->hide();
+    pushButton_saturation->hide();
+    pushButton_clarity->hide();
+    pushButton_temperature->hide();
+    pushButton_crop->hide();
+    out_amount->hide();
+    pushButton_left->hide();
+    pushButton_right->hide();
+    pushButton_New->show();
+    pushButton_Rec_open_1->show();
+    pushButton_Rec_open_2->show();
+    pushButton_Rec_open_3->show();
+    pushButton_Rec_open_4->show();
+    pushButton_Rec_open_5->show();
+    label_greeting->show();
+    actionExport->setEnabled(false);
 }

@@ -15,6 +15,7 @@
 #include "workerthread.h"
 #include "cvmatandqimage.h"
 #include <opencv2/core/core.hpp>
+#include <QStandardPaths>
 
 enum class PROCESSES
 {
@@ -22,7 +23,7 @@ enum class PROCESSES
     CONTRAST,
     SATURATUIN,
     CLARITY,
-    COLORFULNESS,
+    TEMPERATURE,
     CROP
 };
 
@@ -38,14 +39,20 @@ class MainWindow : public QMainWindow, protected Ui::MainWindow
 
 public:
     explicit MainWindow(QWidget *parent = nullptr);
-    friend void start_proc(MainWindow *, QString &);
-    friend void main_proc(MainWindow *);
-    friend void end_main_proc(MainWindow *);
-    friend void set_rec_opened_butts(MainWindow *);
-    friend void set_slider_limits(MainWindow *);
     void set_curr_proc(PROCESSES);
+    void set_rec_opened_butts();
     PROCESSES get_curr_proc();
     ~MainWindow();
+
+public slots:
+    void start_proc(QString &);
+    void main_proc(int);
+    void set_slider_limits();
+    void end_main_proc();
+    void rotate_left();
+    void rotate_right();
+    void save_image();
+    void set_new_image();
 
 protected:
     QGraphicsScene *graphicsScene;
@@ -53,7 +60,7 @@ protected:
     struct image_info
     {
         QPixmap *start_image;
-        int brightness, contrast, saturation, clarity, colorfulness;
+        int brightness, contrast, saturation, clarity, temperture;
     } image_info;
 
 public slots:

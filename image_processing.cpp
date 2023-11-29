@@ -17,21 +17,62 @@ Mat Oper_contrast::exec()
 Mat Oper_saturation::exec()
 {
     cvtColor(image, image, COLOR_BGR2HSV);
-    /* for (int i = 0; i < image.rows; i++)
-        for (int j = 0; j < image.cols; j++)
-            image.at<Vec3b>(i, j)[0] += value; */
-    image.forEach<Pixel>([&](Pixel &p, const int *position) -> void
-                         { p.y += value; });
+    std::vector<Mat> channels;
+    split(image, channels);
+    double alpha = 1;
+    alpha += value / 100.0;
+    channels[1].convertTo(channels[1], -1, alpha, 0);
+    merge(channels, image);
     cvtColor(image, image, COLOR_HSV2BGR);
     return image;
 }
 
 Mat Oper_clarity::exec()
 {
+    if (value > 0)
+    {
+        double alpha = 1;
+        alpha += value / 100.0;
+        Mat kernel = (Mat_<double>(3, 3) << 0, -1 * alpha, 0,
+                      -1 * alpha, 5 * alpha, -1 * alpha,
+                      0, -1 * alpha, 0);
+        filter2D(image, image, image.depth(), kernel);
+    }
     return image;
 }
 
-Mat Oper_colorfulness::exec()
+Mat Oper_temperature::exec()
 {
+    double gamma = 1;
+    gamma += abs(value) / 100.0;
+    Mat lookUpTable(1, 256, CV_8U);
+    uchar *p = lookUpTable.ptr();
+    for (int i = 0; i < 256; ++i)
+        p[i] = saturate_cast<uchar>(pow(i / 255.0, gamma) * 255.0);
+    std::vector<Mat> bgr;
+    split(image, bgr);
+    if (value < 0)
+        LUT(bgr[2], lookUpTable, bgr[2]);
+    if (value > 0)
+        LUT(bgr[0], lookUpTable, bgr[0]);
+    merge(bgr, image);
     return image;
+}
+
+void MainWindow::rotate_left()
+{
+    Mat im_in = QtOcv::image2Mat(image_info.start_image->toImage());
+    Mat im_out(im_in.cols, im_in.rows, CV_8UC3);
+    rotate(im_in, im_out, 270);
+    (*image_info.start_image) = QPixmap::fromImage(QtOcv::mat2Image(im_out));
+    change_image(im_out);
+}
+
+void MainWindow::rotate_right()
+{
+    Mat im_in = QtOcv::image2Mat(image_info.start_image->toImage());
+    Mat im_out(im_in.cols, im_in.rows, CV_8UC3);
+    rotate(im_in, im_out, 90);
+    (*image_info.start_image) = QPixmap::fromImage(QtOcv::mat2Image(im_out));
+    change_image(im_out);
 }

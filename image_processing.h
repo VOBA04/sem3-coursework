@@ -65,10 +65,10 @@ public:
     virtual Mat exec() override;
 };
 
-class Oper_colorfulness : public Operation
+class Oper_temperature : public Operation
 {
 public:
-    Oper_colorfulness(int val, Mat image)
+    Oper_temperature(int val, Mat image)
     {
         value = val;
         this->image = image;
