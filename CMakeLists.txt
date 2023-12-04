@@ -27,6 +27,13 @@ set(PROJECT_SOURCES
         workerthread.cpp
         cvmatandqimage.h
         cvmatandqimage.cpp
+        imageautosizeview.h
+        image_filters.h
+        image_filters.cpp
+        MyRing.h
+        set_FilterName_window.ui
+        set_FilterName_window.cpp
+        set_FilterName_window.h
 )
 
 qt_add_executable(photored

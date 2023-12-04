@@ -61,18 +61,16 @@ Mat Oper_temperature::exec()
 
 void MainWindow::rotate_left()
 {
-    Mat im_in = QtOcv::image2Mat(image_info.start_image->toImage());
-    Mat im_out(im_in.cols, im_in.rows, CV_8UC3);
-    rotate(im_in, im_out, 270);
-    (*image_info.start_image) = QPixmap::fromImage(QtOcv::mat2Image(im_out));
-    change_image(im_out);
+    Mat image = QtOcv::image2Mat(image_info.start_image->toImage());
+    rotate(image, image, ROTATE_90_COUNTERCLOCKWISE);
+    (*image_info.start_image) = QPixmap::fromImage(QtOcv::mat2Image(image));
+    change_image(image);
 }
 
 void MainWindow::rotate_right()
 {
-    Mat im_in = QtOcv::image2Mat(image_info.start_image->toImage());
-    Mat im_out(im_in.cols, im_in.rows, CV_8UC3);
-    rotate(im_in, im_out, 90);
-    (*image_info.start_image) = QPixmap::fromImage(QtOcv::mat2Image(im_out));
-    change_image(im_out);
+    Mat image = QtOcv::image2Mat(image_info.start_image->toImage());
+    rotate(image, image, ROTATE_90_CLOCKWISE);
+    (*image_info.start_image) = QPixmap::fromImage(QtOcv::mat2Image(image));
+    change_image(image);
 }

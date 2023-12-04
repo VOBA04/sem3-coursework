@@ -6,19 +6,236 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>906</width>
+    <width>900</width>
     <height>600</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>900</width>
+    <height>600</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string notr="true">Photored</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_2">
+    <item row="2" column="4">
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="QPushButton" name="pushButton_addF">
+        <property name="minimumSize">
+         <size>
+          <width>100</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Add filter</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_deleteF">
+        <property name="minimumSize">
+         <size>
+          <width>100</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Delete filter</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="1" column="2">
+     <widget class="QSlider" name="regulation">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>20</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="minimum">
+       <number>0</number>
+      </property>
+      <property name="maximum">
+       <number>101</number>
+      </property>
+      <property name="tracking">
+       <bool>true</bool>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <layout class="QGridLayout" name="gridLayout_8">
+      <item row="0" column="1">
+       <widget class="IconautosizePushButton" name="pushButton_leftF">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>100</width>
+          <height>100</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>200</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QLabel" name="label_centerFname">
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3">
+       <widget class="QLabel" name="label_rightFname">
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="IconautosizePushButton" name="pushButton_centerF">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>100</width>
+          <height>100</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>200</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLabel" name="label_leftFname">
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QPushButton" name="pushButton_toLeft">
+        <property name="maximumSize">
+         <size>
+          <width>70</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>&lt;&lt;&lt;</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="4">
+       <widget class="QPushButton" name="pushButton_toRight">
+        <property name="maximumSize">
+         <size>
+          <width>70</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>&gt;&gt;&gt;</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="IconautosizePushButton" name="pushButton_rightF">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>100</width>
+          <height>101</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>200</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
     <item row="1" column="0">
      <layout class="QGridLayout" name="gridLayout">
-      <item row="3" column="2">
-       <widget class="IconautosizePushButton" name="pushButton_Rec_open_5">
+      <item row="2" column="2">
+       <widget class="IconautosizePushButton" name="pushButton_Rec_open_3">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
           <horstretch>0</horstretch>
@@ -43,8 +260,30 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="2">
-       <widget class="IconautosizePushButton" name="pushButton_Rec_open_3">
+      <item row="1" column="2">
+       <widget class="IconautosizePushButton" name="pushButton_Rec_open_1">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="checkable">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="2">
+       <widget class="IconautosizePushButton" name="pushButton_Rec_open_5">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
           <horstretch>0</horstretch>
@@ -66,28 +305,6 @@
         </property>
         <property name="text">
          <string>Open new image</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="2">
-       <widget class="IconautosizePushButton" name="pushButton_Rec_open_1">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="styleSheet">
-         <string notr="true"/>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="checkable">
-         <bool>false</bool>
         </property>
        </widget>
       </item>
@@ -226,6 +443,45 @@
        </widget>
       </item>
       <item>
+       <widget class="QPushButton" name="pushButton_filters">
+        <property name="minimumSize">
+         <size>
+          <width>100</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Filters</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_applyFilter">
+        <property name="minimumSize">
+         <size>
+          <width>100</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Apply</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_back">
+        <property name="minimumSize">
+         <size>
+          <width>100</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Back</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
          <widget class="QPushButton" name="pushButton_left">
@@ -297,34 +553,6 @@
       </item>
      </layout>
     </item>
-    <item row="1" column="2">
-     <widget class="QSlider" name="regulation">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>20</width>
-        <height>16777215</height>
-       </size>
-      </property>
-      <property name="minimum">
-       <number>0</number>
-      </property>
-      <property name="maximum">
-       <number>101</number>
-      </property>
-      <property name="tracking">
-       <bool>true</bool>
-      </property>
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-     </widget>
-    </item>
     <item row="0" column="0">
      <widget class="QLabel" name="label_greeting">
       <property name="maximumSize">
@@ -364,6 +592,18 @@
       <property name="horizontalScrollBarPolicy">
        <enum>Qt::ScrollBarAlwaysOff</enum>
       </property>
+      <property name="sizeAdjustPolicy">
+       <enum>QAbstractScrollArea::AdjustToContents</enum>
+      </property>
+      <property name="backgroundBrush">
+       <brush brushstyle="NoBrush">
+        <color alpha="255">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </property>
       <property name="interactive">
        <bool>true</bool>
       </property>
@@ -376,7 +616,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>906</width>
+     <width>900</width>
      <height>26</height>
     </rect>
    </property>
@@ -426,8 +666,8 @@
      <y>136</y>
     </hint>
     <hint type="destinationlabel">
-     <x>610</x>
-     <y>249</y>
+     <x>378</x>
+     <y>204</y>
     </hint>
    </hints>
   </connection>
@@ -442,8 +682,8 @@
      <y>136</y>
     </hint>
     <hint type="destinationlabel">
-     <x>610</x>
-     <y>406</y>
+     <x>378</x>
+     <y>314</y>
     </hint>
    </hints>
   </connection>
@@ -474,8 +714,8 @@
      <y>136</y>
     </hint>
     <hint type="destinationlabel">
-     <x>152</x>
-     <y>491</y>
+     <x>164</x>
+     <y>425</y>
     </hint>
    </hints>
   </connection>
@@ -490,8 +730,8 @@
      <y>136</y>
     </hint>
     <hint type="destinationlabel">
-     <x>610</x>
-     <y>562</y>
+     <x>378</x>
+     <y>425</y>
     </hint>
    </hints>
   </connection>
@@ -518,7 +758,7 @@
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>474</x>
+     <x>336</x>
      <y>139</y>
     </hint>
     <hint type="destinationlabel">
@@ -534,7 +774,7 @@
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>433</x>
+     <x>295</x>
      <y>163</y>
     </hint>
     <hint type="destinationlabel">
@@ -550,12 +790,12 @@
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>610</x>
-     <y>249</y>
+     <x>378</x>
+     <y>204</y>
     </hint>
     <hint type="destinationlabel">
-     <x>418</x>
-     <y>318</y>
+     <x>280</x>
+     <y>297</y>
     </hint>
    </hints>
   </connection>
@@ -566,7 +806,7 @@
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>441</x>
+     <x>303</x>
      <y>164</y>
     </hint>
     <hint type="destinationlabel">
@@ -582,12 +822,12 @@
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>434</x>
+     <x>296</x>
      <y>170</y>
     </hint>
     <hint type="destinationlabel">
-     <x>440</x>
-     <y>429</y>
+     <x>302</x>
+     <y>385</y>
     </hint>
    </hints>
   </connection>
@@ -598,7 +838,7 @@
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>453</x>
+     <x>315</x>
      <y>144</y>
     </hint>
     <hint type="destinationlabel">
@@ -634,8 +874,8 @@
      <y>310</y>
     </hint>
     <hint type="destinationlabel">
-     <x>372</x>
-     <y>244</y>
+     <x>378</x>
+     <y>204</y>
     </hint>
    </hints>
   </connection>
@@ -650,8 +890,8 @@
      <y>302</y>
     </hint>
     <hint type="destinationlabel">
-     <x>357</x>
-     <y>374</y>
+     <x>378</x>
+     <y>314</y>
     </hint>
    </hints>
   </connection>
@@ -662,12 +902,12 @@
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>68</x>
-     <y>323</y>
+     <x>80</x>
+     <y>314</y>
     </hint>
     <hint type="destinationlabel">
-     <x>72</x>
-     <y>429</y>
+     <x>84</x>
+     <y>425</y>
     </hint>
    </hints>
   </connection>
@@ -678,12 +918,12 @@
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>132</x>
-     <y>346</y>
+     <x>144</x>
+     <y>314</y>
     </hint>
     <hint type="destinationlabel">
-     <x>426</x>
-     <y>456</y>
+     <x>288</x>
+     <y>412</y>
     </hint>
    </hints>
   </connection>
@@ -710,8 +950,8 @@
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>399</x>
-     <y>350</y>
+     <x>378</x>
+     <y>314</y>
     </hint>
     <hint type="destinationlabel">
      <x>125</x>
@@ -726,12 +966,12 @@
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>411</x>
-     <y>327</y>
+     <x>273</x>
+     <y>306</y>
     </hint>
     <hint type="destinationlabel">
-     <x>401</x>
-     <y>229</y>
+     <x>378</x>
+     <y>204</y>
     </hint>
    </hints>
   </connection>
@@ -742,8 +982,8 @@
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>416</x>
-     <y>354</y>
+     <x>378</x>
+     <y>314</y>
     </hint>
     <hint type="destinationlabel">
      <x>161</x>
@@ -758,12 +998,12 @@
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>410</x>
-     <y>375</y>
+     <x>378</x>
+     <y>314</y>
     </hint>
     <hint type="destinationlabel">
-     <x>166</x>
-     <y>427</y>
+     <x>178</x>
+     <y>425</y>
     </hint>
    </hints>
   </connection>
@@ -774,12 +1014,12 @@
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>419</x>
-     <y>371</y>
+     <x>378</x>
+     <y>314</y>
     </hint>
     <hint type="destinationlabel">
-     <x>412</x>
-     <y>474</y>
+     <x>378</x>
+     <y>425</y>
     </hint>
    </hints>
   </connection>
@@ -790,8 +1030,8 @@
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>391</x>
-     <y>341</y>
+     <x>378</x>
+     <y>314</y>
     </hint>
     <hint type="destinationlabel">
      <x>353</x>
@@ -806,8 +1046,8 @@
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>125</x>
-     <y>471</y>
+     <x>137</x>
+     <y>425</y>
     </hint>
     <hint type="destinationlabel">
      <x>114</x>
@@ -822,11 +1062,11 @@
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>181</x>
-     <y>463</y>
+     <x>191</x>
+     <y>425</y>
     </hint>
     <hint type="destinationlabel">
-     <x>418</x>
+     <x>280</x>
      <y>182</y>
     </hint>
    </hints>
@@ -838,8 +1078,8 @@
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>143</x>
-     <y>454</y>
+     <x>155</x>
+     <y>425</y>
     </hint>
     <hint type="destinationlabel">
      <x>115</x>
@@ -854,12 +1094,12 @@
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>128</x>
-     <y>504</y>
+     <x>140</x>
+     <y>425</y>
     </hint>
     <hint type="destinationlabel">
-     <x>406</x>
-     <y>390</y>
+     <x>378</x>
+     <y>314</y>
     </hint>
    </hints>
   </connection>
@@ -870,12 +1110,12 @@
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>140</x>
-     <y>461</y>
+     <x>152</x>
+     <y>425</y>
     </hint>
     <hint type="destinationlabel">
-     <x>349</x>
-     <y>482</y>
+     <x>378</x>
+     <y>425</y>
     </hint>
    </hints>
   </connection>
@@ -886,12 +1126,12 @@
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>88</x>
-     <y>489</y>
+     <x>100</x>
+     <y>425</y>
     </hint>
     <hint type="destinationlabel">
-     <x>55</x>
-     <y>463</y>
+     <x>67</x>
+     <y>425</y>
     </hint>
    </hints>
   </connection>
@@ -902,8 +1142,8 @@
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>431</x>
-     <y>551</y>
+     <x>378</x>
+     <y>425</y>
     </hint>
     <hint type="destinationlabel">
      <x>52</x>
@@ -918,8 +1158,8 @@
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>610</x>
-     <y>562</y>
+     <x>378</x>
+     <y>425</y>
     </hint>
     <hint type="destinationlabel">
      <x>377</x>
@@ -934,12 +1174,12 @@
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>610</x>
-     <y>562</y>
+     <x>378</x>
+     <y>425</y>
     </hint>
     <hint type="destinationlabel">
-     <x>29</x>
-     <y>365</y>
+     <x>41</x>
+     <y>314</y>
     </hint>
    </hints>
   </connection>
@@ -950,12 +1190,12 @@
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>457</x>
-     <y>511</y>
+     <x>378</x>
+     <y>425</y>
     </hint>
     <hint type="destinationlabel">
-     <x>366</x>
-     <y>406</y>
+     <x>378</x>
+     <y>314</y>
     </hint>
    </hints>
   </connection>
@@ -966,12 +1206,12 @@
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>454</x>
-     <y>532</y>
+     <x>378</x>
+     <y>425</y>
     </hint>
     <hint type="destinationlabel">
-     <x>166</x>
-     <y>552</y>
+     <x>178</x>
+     <y>425</y>
     </hint>
    </hints>
   </connection>
@@ -982,12 +1222,12 @@
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>350</x>
-     <y>477</y>
+     <x>378</x>
+     <y>425</y>
     </hint>
     <hint type="destinationlabel">
-     <x>610</x>
-     <y>562</y>
+     <x>378</x>
+     <y>425</y>
     </hint>
    </hints>
   </connection>
@@ -998,12 +1238,12 @@
    <slot>show()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>893</x>
-     <y>157</y>
+     <x>887</x>
+     <y>124</y>
     </hint>
     <hint type="destinationlabel">
-     <x>785</x>
-     <y>351</y>
+     <x>779</x>
+     <y>426</y>
     </hint>
    </hints>
   </connection>
@@ -1014,12 +1254,12 @@
    <slot>show()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>819</x>
-     <y>219</y>
+     <x>887</x>
+     <y>154</y>
     </hint>
     <hint type="destinationlabel">
-     <x>785</x>
-     <y>424</y>
+     <x>779</x>
+     <y>426</y>
     </hint>
    </hints>
   </connection>
@@ -1030,12 +1270,12 @@
    <slot>show()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>819</x>
-     <y>282</y>
+     <x>887</x>
+     <y>185</y>
     </hint>
     <hint type="destinationlabel">
-     <x>785</x>
-     <y>496</y>
+     <x>779</x>
+     <y>426</y>
     </hint>
    </hints>
   </connection>
@@ -1046,12 +1286,12 @@
    <slot>show()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>819</x>
-     <y>345</y>
+     <x>887</x>
+     <y>215</y>
     </hint>
     <hint type="destinationlabel">
-     <x>785</x>
-     <y>563</y>
+     <x>779</x>
+     <y>426</y>
     </hint>
    </hints>
   </connection>
@@ -1062,12 +1302,12 @@
    <slot>show()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>819</x>
-     <y>408</y>
+     <x>887</x>
+     <y>246</y>
     </hint>
     <hint type="destinationlabel">
-     <x>785</x>
-     <y>563</y>
+     <x>779</x>
+     <y>426</y>
     </hint>
    </hints>
   </connection>
@@ -1078,12 +1318,12 @@
    <slot>show()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>893</x>
-     <y>157</y>
+     <x>887</x>
+     <y>124</y>
     </hint>
     <hint type="destinationlabel">
-     <x>893</x>
-     <y>532</y>
+     <x>887</x>
+     <y>425</y>
     </hint>
    </hints>
   </connection>
@@ -1094,12 +1334,12 @@
    <slot>show()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>893</x>
-     <y>221</y>
+     <x>887</x>
+     <y>154</y>
     </hint>
     <hint type="destinationlabel">
-     <x>893</x>
-     <y>532</y>
+     <x>887</x>
+     <y>425</y>
     </hint>
    </hints>
   </connection>
@@ -1110,12 +1350,12 @@
    <slot>show()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>893</x>
-     <y>285</y>
+     <x>887</x>
+     <y>185</y>
     </hint>
     <hint type="destinationlabel">
-     <x>893</x>
-     <y>532</y>
+     <x>887</x>
+     <y>425</y>
     </hint>
    </hints>
   </connection>
@@ -1126,12 +1366,12 @@
    <slot>show()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>795</x>
-     <y>345</y>
+     <x>887</x>
+     <y>215</y>
     </hint>
     <hint type="destinationlabel">
-     <x>794</x>
-     <y>518</y>
+     <x>887</x>
+     <y>425</y>
     </hint>
    </hints>
   </connection>
@@ -1142,12 +1382,12 @@
    <slot>show()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>800</x>
-     <y>409</y>
+     <x>887</x>
+     <y>246</y>
     </hint>
     <hint type="destinationlabel">
-     <x>809</x>
-     <y>523</y>
+     <x>887</x>
+     <y>425</y>
     </hint>
    </hints>
   </connection>
@@ -1158,12 +1398,364 @@
    <slot>show()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>815</x>
-     <y>469</y>
+     <x>887</x>
+     <y>276</y>
     </hint>
     <hint type="destinationlabel">
-     <x>822</x>
-     <y>520</y>
+     <x>887</x>
+     <y>425</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_filters</sender>
+   <signal>clicked()</signal>
+   <receiver>pushButton_brightness</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>887</x>
+     <y>307</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>796</x>
+     <y>113</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_filters</sender>
+   <signal>clicked()</signal>
+   <receiver>pushButton_contrast</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>887</x>
+     <y>307</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>808</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_filters</sender>
+   <signal>clicked()</signal>
+   <receiver>pushButton_saturation</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>887</x>
+     <y>307</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>887</x>
+     <y>185</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_filters</sender>
+   <signal>clicked()</signal>
+   <receiver>pushButton_clarity</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>887</x>
+     <y>307</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>887</x>
+     <y>215</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_filters</sender>
+   <signal>clicked()</signal>
+   <receiver>pushButton_temperature</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>887</x>
+     <y>307</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>887</x>
+     <y>246</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_filters</sender>
+   <signal>clicked()</signal>
+   <receiver>pushButton_crop</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>887</x>
+     <y>307</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>887</x>
+     <y>276</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_filters</sender>
+   <signal>clicked()</signal>
+   <receiver>regulation</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>887</x>
+     <y>307</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>772</x>
+     <y>338</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_filters</sender>
+   <signal>clicked()</signal>
+   <receiver>pushButton_left</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>887</x>
+     <y>307</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>830</x>
+     <y>411</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_filters</sender>
+   <signal>clicked()</signal>
+   <receiver>pushButton_right</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>887</x>
+     <y>307</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>879</x>
+     <y>411</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_filters</sender>
+   <signal>clicked()</signal>
+   <receiver>pushButton_toLeft</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>887</x>
+     <y>307</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>455</x>
+     <y>499</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_filters</sender>
+   <signal>clicked()</signal>
+   <receiver>pushButton_leftF</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>887</x>
+     <y>307</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>526</x>
+     <y>514</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_filters</sender>
+   <signal>clicked()</signal>
+   <receiver>pushButton_centerF</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>887</x>
+     <y>307</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>581</x>
+     <y>513</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_filters</sender>
+   <signal>clicked()</signal>
+   <receiver>pushButton_rightF</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>887</x>
+     <y>307</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>633</x>
+     <y>518</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_filters</sender>
+   <signal>clicked()</signal>
+   <receiver>pushButton_toRight</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>887</x>
+     <y>307</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>753</x>
+     <y>499</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_filters</sender>
+   <signal>clicked()</signal>
+   <receiver>label_leftFname</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>887</x>
+     <y>307</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>513</x>
+     <y>552</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_filters</sender>
+   <signal>clicked()</signal>
+   <receiver>label_centerFname</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>887</x>
+     <y>307</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>578</x>
+     <y>554</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_filters</sender>
+   <signal>clicked()</signal>
+   <receiver>label_rightFname</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>887</x>
+     <y>307</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>639</x>
+     <y>556</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_filters</sender>
+   <signal>clicked()</signal>
+   <receiver>pushButton_back</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>887</x>
+     <y>307</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>887</x>
+     <y>368</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_filters</sender>
+   <signal>clicked()</signal>
+   <receiver>pushButton_addF</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>887</x>
+     <y>307</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>887</x>
+     <y>484</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_filters</sender>
+   <signal>clicked()</signal>
+   <receiver>pushButton_deleteF</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>887</x>
+     <y>307</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>887</x>
+     <y>541</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_filters</sender>
+   <signal>clicked()</signal>
+   <receiver>pushButton_applyFilter</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>842</x>
+     <y>292</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>842</x>
+     <y>318</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_filters</sender>
+   <signal>clicked()</signal>
+   <receiver>pushButton_filters</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>866</x>
+     <y>297</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>862</x>
+     <y>300</y>
     </hint>
    </hints>
   </connection>
