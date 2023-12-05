@@ -1759,5 +1759,85 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>pushButton_filters</sender>
+   <signal>clicked()</signal>
+   <receiver>out_amount</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>822</x>
+     <y>298</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>827</x>
+     <y>419</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_left</sender>
+   <signal>clicked()</signal>
+   <receiver>regulation</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>809</x>
+     <y>393</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>773</x>
+     <y>388</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_left</sender>
+   <signal>clicked()</signal>
+   <receiver>out_amount</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>799</x>
+     <y>396</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>802</x>
+     <y>424</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_right</sender>
+   <signal>clicked()</signal>
+   <receiver>regulation</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>862</x>
+     <y>393</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>771</x>
+     <y>310</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_right</sender>
+   <signal>clicked()</signal>
+   <receiver>out_amount</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>873</x>
+     <y>391</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>849</x>
+     <y>422</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
 </ui>

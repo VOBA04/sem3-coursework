@@ -3,6 +3,7 @@
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
     setupUi(this);
+    FN_W = new FilterName_window();
     image_info.start_image = new QPixmap;
     image_info.image_in_proc = new QPixmap;
     image_info.brightness = 0;
@@ -11,6 +12,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     image_info.clarity = 0;
     image_info.temperture = 0;
     image_info.filter = FILTER::ORIGINAL;
+    FN_W->hide();
+    FN_W->setWindowModality(Qt::WindowModality::ApplicationModal);
     graphicsView_main_im->hide();
     pushButton_Rec_open_1->hide();
     pushButton_Rec_open_2->hide();
@@ -63,26 +66,31 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     QObject::connect(pushButton_brightness, &QPushButton::clicked, this, [&]()
                      {  end_main_proc();
                         set_curr_proc(PROCESSES::BRIGHTNESS);
+                        show_pressed_button();
                         set_slider_limits(); 
                         prepare_image(); });
     QObject::connect(pushButton_contrast, &QPushButton::clicked, this, [&]()
                      {  end_main_proc();
                         set_curr_proc(PROCESSES::CONTRAST);
+                        show_pressed_button();
                         set_slider_limits();
                         prepare_image(); });
     QObject::connect(pushButton_saturation, &QPushButton::clicked, this, [&]()
                      {  end_main_proc();
                         set_curr_proc(PROCESSES::SATURATUIN);
+                        show_pressed_button();
                         set_slider_limits();
                         prepare_image(); });
     QObject::connect(pushButton_clarity, &QPushButton::clicked, this, [&]()
                      {  end_main_proc();
                         set_curr_proc(PROCESSES::CLARITY);
+                        show_pressed_button();
                         set_slider_limits();
                         prepare_image(); });
     QObject::connect(pushButton_temperature, &QPushButton::clicked, this, [&]()
                      {  end_main_proc();
                         set_curr_proc(PROCESSES::TEMPERATURE);
+                        show_pressed_button();
                         set_slider_limits();
                         prepare_image(); });
     QObject::connect(pushButton_crop, &QPushButton::clicked, this, [&]()
@@ -95,13 +103,20 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     QObject::connect(pushButton_left, &QPushButton::clicked, this, [&]()
                      {  end_main_proc();
                         set_curr_proc(PROCESSES::ROTATION);
+                        show_pressed_button();
+                        prepare_image();
                         rotate_left(); });
     QObject::connect(pushButton_right, &QPushButton::clicked, this, [&]()
                      {  end_main_proc();
                         set_curr_proc(PROCESSES::ROTATION);
+                        show_pressed_button();
+                        prepare_image();
                         rotate_right(); });
     QObject::connect(pushButton_filters, &QPushButton::clicked, this, [&]()
-                     {  set_filters();
+                     {  end_main_proc();
+                        set_curr_proc(PROCESSES::FILTER);
+                        show_pressed_button();
+                        set_filters();
                         set_filters_buttons(); });
     QObject::connect(pushButton_toLeft, &QPushButton::clicked, this, [&]()
                      {  next_prev_filter(-1);
@@ -124,10 +139,15 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     QObject::connect(pushButton_back, &QPushButton::clicked, this, &MainWindow::back_from_filters);
     QObject::connect(pushButton_applyFilter, &QPushButton::clicked, this, &MainWindow::apply_filter);
     QObject::connect(pushButton_deleteF, &QPushButton::clicked, this, &MainWindow::delete_filter);
+    QObject::connect(pushButton_addF, &QPushButton::clicked, this, [&]()
+                     {   FN_W->set_filters(&filters);
+                         FN_W->show(); });
+    QObject::connect(FN_W, &FilterName_window::filter_name_got, this, &MainWindow::add_filter);
 }
 
 MainWindow::~MainWindow()
 {
+    save_filters();
     delete image_info.start_image;
     delete image_info.image_in_proc;
     delete pixmap;
@@ -157,7 +177,7 @@ void MainWindow::start_proc(QString &QPath)
     }
     else
         Qpath_from = QPath;
-    QString Qpath_to, Qfile_name;
+    /* QString Qpath_to, Qfile_name;
     for (auto it = Qpath_from.rbegin(); *it != '\\'; it++)
         Qfile_name.push_back(*it);
     std::reverse(Qfile_name.begin(), Qfile_name.end());
@@ -169,8 +189,8 @@ void MainWindow::start_proc(QString &QPath)
     fs::create_directory("image_in_processing");
     QFile::remove(Qpath_to);
     QFile image(Qpath_from);
-    image.copy(Qpath_to);
-    QPixmap Qimage(Qpath_to);
+    image.copy(Qpath_to); */
+    QPixmap Qimage(Qpath_from);
     *(image_info.start_image) = Qimage;
     *(image_info.image_in_proc) = Qimage;
     graphicsView_main_im->show();
@@ -361,6 +381,11 @@ void MainWindow::apply_filter()
     else if (filter_name == "Original")
     {
         image_info.filter = FILTER::ORIGINAL;
+        image_info.brightness = 0;
+        image_info.contrast = 0;
+        image_info.saturation = 0;
+        image_info.clarity = 0;
+        image_info.temperture = 0;
     }
     else
     {
@@ -373,4 +398,10 @@ void MainWindow::apply_filter()
     }
     prepare_image();
     back_from_filters();
+}
+
+void MainWindow::add_filter()
+{
+    std::string filter_name = FN_W->get_filter_name();
+    filters.push(new CustomFilter(filter_name, QtOcv::image2Mat((*image_info.start_image).toImage()), image_info.brightness, image_info.contrast, image_info.saturation, image_info.clarity, image_info.temperture));
 }

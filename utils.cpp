@@ -163,7 +163,7 @@ void MainWindow::set_filters()
     Mat image = QtOcv::image2Mat(image_info.image_in_proc->toImage());
     Mat start_image = QtOcv::image2Mat(image_info.start_image->toImage());
     filters.push(new Inverse(image));
-    filters.push(new Original(start_image));
+    filters.push(new Original(start_image.clone()));
     filters.push(new Gray(image));
     QFile file;
     file.setFileName("D:\\University\\cs\\sem3\\cursach\\photored\\filters_inform.json");
@@ -186,7 +186,7 @@ void MainWindow::set_filters()
         st = js_filter["saturation"].toInt();
         cl = js_filter["clarity"].toInt();
         tmp = js_filter["temperature"].toInt();
-        filters.push(new CustomFilter(filter_name, start_image, br, co, st, cl, tmp));
+        filters.push(new CustomFilter(filter_name, start_image.clone(), br, co, st, cl, tmp));
     }
 }
 
@@ -317,4 +317,30 @@ void MainWindow::delete_filter()
     }
     }
     set_filters_buttons();
+}
+
+void MainWindow::show_pressed_button()
+{
+    QString pressed = "background-color: gray";
+    QString not_pressed = "";
+    if (current_process == PROCESSES::BRIGHTNESS)
+        pushButton_brightness->setStyleSheet(pressed);
+    else
+        pushButton_brightness->setStyleSheet(not_pressed);
+    if (current_process == PROCESSES::CONTRAST)
+        pushButton_contrast->setStyleSheet(pressed);
+    else
+        pushButton_contrast->setStyleSheet(not_pressed);
+    if (current_process == PROCESSES::SATURATUIN)
+        pushButton_saturation->setStyleSheet(pressed);
+    else
+        pushButton_saturation->setStyleSheet(not_pressed);
+    if (current_process == PROCESSES::CLARITY)
+        pushButton_clarity->setStyleSheet(pressed);
+    else
+        pushButton_clarity->setStyleSheet(not_pressed);
+    if (current_process == PROCESSES::TEMPERATURE)
+        pushButton_temperature->setStyleSheet(pressed);
+    else
+        pushButton_temperature->setStyleSheet(not_pressed);
 }

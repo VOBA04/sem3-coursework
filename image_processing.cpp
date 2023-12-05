@@ -61,16 +61,22 @@ Mat Oper_temperature::exec()
 
 void MainWindow::rotate_left()
 {
-    Mat image = QtOcv::image2Mat(image_info.start_image->toImage());
+    Mat image = QtOcv::image2Mat(image_info.image_in_proc->toImage());
+    Mat start_image = QtOcv::image2Mat(image_info.start_image->toImage());
     rotate(image, image, ROTATE_90_COUNTERCLOCKWISE);
-    (*image_info.start_image) = QPixmap::fromImage(QtOcv::mat2Image(image));
+    rotate(start_image, start_image, ROTATE_90_COUNTERCLOCKWISE);
+    (*image_info.image_in_proc) = QPixmap::fromImage(QtOcv::mat2Image(image));
+    (*image_info.start_image) = QPixmap::fromImage(QtOcv::mat2Image(start_image));
     change_image(image);
 }
 
 void MainWindow::rotate_right()
 {
-    Mat image = QtOcv::image2Mat(image_info.start_image->toImage());
+    Mat image = QtOcv::image2Mat(image_info.image_in_proc->toImage());
+    Mat start_image = QtOcv::image2Mat(image_info.start_image->toImage());
     rotate(image, image, ROTATE_90_CLOCKWISE);
-    (*image_info.start_image) = QPixmap::fromImage(QtOcv::mat2Image(image));
+    rotate(start_image, start_image, ROTATE_90_CLOCKWISE);
+    (*image_info.image_in_proc) = QPixmap::fromImage(QtOcv::mat2Image(image));
+    (*image_info.start_image) = QPixmap::fromImage(QtOcv::mat2Image(start_image));
     change_image(image);
 }

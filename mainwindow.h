@@ -17,6 +17,7 @@
 #include <opencv2/core/core.hpp>
 #include "MyRing.h"
 #include "image_filters.h"
+#include "set_FilterName_window.h"
 
 enum class PROCESSES
 {
@@ -43,6 +44,7 @@ namespace fs = std::filesystem;
 
 class MyThread;
 class Filter;
+class FilterName_window;
 
 class MainWindow : public QMainWindow, protected Ui::MainWindow
 {
@@ -53,9 +55,9 @@ class MainWindow : public QMainWindow, protected Ui::MainWindow
     int filter_number;
 
 public:
+    FilterName_window *FN_W;
     explicit MainWindow(QWidget *parent = nullptr);
     void set_curr_proc(PROCESSES);
-    void set_rec_opened_butts();
     PROCESSES get_curr_proc();
     void prepare_image();
     void set_filters();
@@ -67,6 +69,7 @@ public:
     ~MainWindow();
 
 public slots:
+    void set_rec_opened_butts();
     void start_proc(QString &);
     void main_proc(int);
     void set_slider_limits();
@@ -80,6 +83,8 @@ public slots:
     void back_from_filters();
     void apply_filter();
     void delete_filter();
+    void add_filter();
+    void show_pressed_button();
 
 protected:
     QGraphicsScene *graphicsScene;
