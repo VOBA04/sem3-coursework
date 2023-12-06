@@ -1,7 +1,7 @@
 #ifndef IMAGE_PROCESSING_H
 #define IMAGE_PROCESSING_H
 
-#include "mainwindow.h"
+#include <QPixmap>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc.hpp>

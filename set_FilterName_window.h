@@ -6,8 +6,6 @@
 #include "image_filters.h"
 #include <QString>
 
-class Filter;
-
 class FilterName_window : public QWidget, protected Ui::Form
 {
     Q_OBJECT

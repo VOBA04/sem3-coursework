@@ -42,8 +42,6 @@ enum class FILTER
 namespace fs = std::filesystem;
 
 class MyThread;
-class Filter;
-class FilterName_window;
 
 class MainWindow : public QMainWindow, protected Ui::MainWindow
 {
