@@ -7,8 +7,6 @@ std::string Filter::get_filter_name()
 
 Mat Filter::apply()
 {
-    // imshow(name, image);
-    // waitKey(0);
     return image;
 }
 
@@ -20,17 +18,12 @@ Inverse::Inverse(Mat image)
     Mat max255 = image.clone();
     max255 = Scalar(255, 255, 255);
     absdiff(max255, image, this->image);
-    // bitwise_not(image, this->image);
-    /* imshow("inverse", this->image);
-    waitKey(0); */
 }
 
 Original::Original(Mat image)
 {
     this->image = image;
     name = "Original";
-    /* imshow("original", image);
-    waitKey(0); */
 }
 
 Gray::Gray(Mat image)
@@ -38,8 +31,6 @@ Gray::Gray(Mat image)
     this->image = image;
     name = "Gray";
     cvtColor(image, this->image, COLOR_BGR2GRAY);
-    /* imshow("gray", image);
-    waitKey(0); */
 }
 
 CustomFilter::CustomFilter(std::string name, Mat image, int br, int co, int st, int cl, int tmp)

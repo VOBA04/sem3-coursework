@@ -26,7 +26,6 @@ enum class PROCESSES
     SATURATUIN,
     CLARITY,
     TEMPERATURE,
-    CROP,
     ROTATION,
     FILTER,
     NON
@@ -53,6 +52,7 @@ class MainWindow : public QMainWindow, protected Ui::MainWindow
     PROCESSES current_process;
     MyRing<Filter *> filters;
     int filter_number;
+    void set_connections();
 
 public:
     FilterName_window *FN_W;

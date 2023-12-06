@@ -10,48 +10,50 @@ void MainWindow::set_rec_opened_butts()
 {
     QFile file;
     file.setFileName("D:\\University\\cs\\sem3\\cursach\\photored\\recently_opened.json");
-    file.open(QIODevice::ReadOnly);
-    QString s;
-    s = file.readAll();
-    file.close();
-    QJsonDocument d;
-    d = QJsonDocument::fromJson(s.toUtf8());
-    QJsonArray pathes = d.array();
-    QJsonValue path;
-    int n = pathes.size();
-    for (int i = 0; i < n; i++)
+    if (file.open(QIODevice::ReadOnly))
     {
-        path = pathes[i];
-        s = path.toString();
-        QPixmap im(s);
-        QIcon but_im(im);
-        switch (i)
+        QString s;
+        s = file.readAll();
+        file.close();
+        QJsonDocument d;
+        d = QJsonDocument::fromJson(s.toUtf8());
+        QJsonArray pathes = d.array();
+        QJsonValue path;
+        int n = pathes.size();
+        for (int i = 0; i < n; i++)
         {
-        case 0:
-            pushButton_Rec_open_1->set_image_path(s);
-            pushButton_Rec_open_1->setIcon(but_im);
-            pushButton_Rec_open_1->show();
-            break;
-        case 1:
-            pushButton_Rec_open_2->set_image_path(s);
-            pushButton_Rec_open_2->setIcon(but_im);
-            pushButton_Rec_open_2->show();
-            break;
-        case 2:
-            pushButton_Rec_open_3->set_image_path(s);
-            pushButton_Rec_open_3->setIcon(but_im);
-            pushButton_Rec_open_3->show();
-            break;
-        case 3:
-            pushButton_Rec_open_4->set_image_path(s);
-            pushButton_Rec_open_4->setIcon(but_im);
-            pushButton_Rec_open_4->show();
-            break;
-        case 4:
-            pushButton_Rec_open_5->set_image_path(s);
-            pushButton_Rec_open_5->setIcon(but_im);
-            pushButton_Rec_open_5->show();
-            break;
+            path = pathes[i];
+            s = path.toString();
+            QPixmap im(s);
+            QIcon but_im(im);
+            switch (i)
+            {
+            case 0:
+                pushButton_Rec_open_1->set_image_path(s);
+                pushButton_Rec_open_1->setIcon(but_im);
+                pushButton_Rec_open_1->show();
+                break;
+            case 1:
+                pushButton_Rec_open_2->set_image_path(s);
+                pushButton_Rec_open_2->setIcon(but_im);
+                pushButton_Rec_open_2->show();
+                break;
+            case 2:
+                pushButton_Rec_open_3->set_image_path(s);
+                pushButton_Rec_open_3->setIcon(but_im);
+                pushButton_Rec_open_3->show();
+                break;
+            case 3:
+                pushButton_Rec_open_4->set_image_path(s);
+                pushButton_Rec_open_4->setIcon(but_im);
+                pushButton_Rec_open_4->show();
+                break;
+            case 4:
+                pushButton_Rec_open_5->set_image_path(s);
+                pushButton_Rec_open_5->setIcon(but_im);
+                pushButton_Rec_open_5->show();
+                break;
+            }
         }
     }
 }
@@ -284,7 +286,6 @@ void MainWindow::back_from_filters()
     pushButton_saturation->show();
     pushButton_clarity->show();
     pushButton_temperature->show();
-    pushButton_crop->show();
     pushButton_filters->show();
     pushButton_left->show();
     pushButton_right->show();
@@ -319,6 +320,12 @@ void MainWindow::delete_filter()
     set_filters_buttons();
 }
 
+void MainWindow::add_filter()
+{
+    std::string filter_name = FN_W->get_filter_name();
+    filters.push(new CustomFilter(filter_name, QtOcv::image2Mat((*image_info.start_image).toImage()), image_info.brightness, image_info.contrast, image_info.saturation, image_info.clarity, image_info.temperture));
+}
+
 void MainWindow::show_pressed_button()
 {
     QString pressed = "background-color: gray";
@@ -343,4 +350,97 @@ void MainWindow::show_pressed_button()
         pushButton_temperature->setStyleSheet(pressed);
     else
         pushButton_temperature->setStyleSheet(not_pressed);
+}
+
+void MainWindow::set_connections()
+{
+    QObject::connect(pushButton_New, &QPushButton::clicked, this, [&]()
+                     { QString tmp; start_proc(tmp); });
+    QObject::connect(pushButton_Rec_open_1, &QPushButton::clicked, this, [&]()
+                     { start_proc(pushButton_Rec_open_1->get_image_path()); });
+    QObject::connect(pushButton_Rec_open_2, &QPushButton::clicked, this, [&]()
+                     { start_proc(pushButton_Rec_open_2->get_image_path()); });
+    QObject::connect(pushButton_Rec_open_3, &QPushButton::clicked, this, [&]()
+                     { start_proc(pushButton_Rec_open_3->get_image_path()); });
+    QObject::connect(pushButton_Rec_open_4, &QPushButton::clicked, this, [&]()
+                     { start_proc(pushButton_Rec_open_4->get_image_path()); });
+    QObject::connect(pushButton_Rec_open_5, &QPushButton::clicked, this, [&]()
+                     { start_proc(pushButton_Rec_open_5->get_image_path()); });
+    QObject::connect(pushButton_brightness, &QPushButton::clicked, this, [&]()
+                     {  end_main_proc();
+                        set_curr_proc(PROCESSES::BRIGHTNESS);
+                        show_pressed_button();
+                        set_slider_limits(); 
+                        prepare_image(); });
+    QObject::connect(pushButton_contrast, &QPushButton::clicked, this, [&]()
+                     {  end_main_proc();
+                        set_curr_proc(PROCESSES::CONTRAST);
+                        show_pressed_button();
+                        set_slider_limits();
+                        prepare_image(); });
+    QObject::connect(pushButton_saturation, &QPushButton::clicked, this, [&]()
+                     {  end_main_proc();
+                        set_curr_proc(PROCESSES::SATURATUIN);
+                        show_pressed_button();
+                        set_slider_limits();
+                        prepare_image(); });
+    QObject::connect(pushButton_clarity, &QPushButton::clicked, this, [&]()
+                     {  end_main_proc();
+                        set_curr_proc(PROCESSES::CLARITY);
+                        show_pressed_button();
+                        set_slider_limits();
+                        prepare_image(); });
+    QObject::connect(pushButton_temperature, &QPushButton::clicked, this, [&]()
+                     {  end_main_proc();
+                        set_curr_proc(PROCESSES::TEMPERATURE);
+                        show_pressed_button();
+                        set_slider_limits();
+                        prepare_image(); });
+    QObject::connect(regulation, SIGNAL(sliderMoved(int)), out_amount, SLOT(setNum(int)));
+    QObject::connect(regulation, &QSlider::sliderMoved, this, &MainWindow::main_proc);
+    QObject::connect(actionExport, &QAction::triggered, this, &MainWindow::save_image);
+    QObject::connect(actionNew_image, &QAction::triggered, this, &MainWindow::set_new_image);
+    QObject::connect(pushButton_left, &QPushButton::clicked, this, [&]()
+                     {  end_main_proc();
+                        set_curr_proc(PROCESSES::ROTATION);
+                        show_pressed_button();
+                        prepare_image();
+                        rotate_left(); });
+    QObject::connect(pushButton_right, &QPushButton::clicked, this, [&]()
+                     {  end_main_proc();
+                        set_curr_proc(PROCESSES::ROTATION);
+                        show_pressed_button();
+                        prepare_image();
+                        rotate_right(); });
+    QObject::connect(pushButton_filters, &QPushButton::clicked, this, [&]()
+                     {  end_main_proc();
+                        set_curr_proc(PROCESSES::FILTER);
+                        show_pressed_button();
+                        set_filters();
+                        set_filters_buttons(); });
+    QObject::connect(pushButton_toLeft, &QPushButton::clicked, this, [&]()
+                     {  next_prev_filter(-1);
+                        set_filters_buttons(); });
+    QObject::connect(pushButton_toRight, &QPushButton::clicked, this, [&]()
+                     {  next_prev_filter(1);
+                        set_filters_buttons(); });
+    QObject::connect(pushButton_leftF, &QPushButton::clicked, this, [&]()
+                     { set_filter_number(0);
+                       change_image(get_filtered_image(0)); 
+                       set_deleteF_enabled(get_filter_name(0)); });
+    QObject::connect(pushButton_centerF, &QPushButton::clicked, this, [&]()
+                     { set_filter_number(1);
+                       change_image(get_filtered_image(1)); 
+                       set_deleteF_enabled(get_filter_name(1)); });
+    QObject::connect(pushButton_rightF, &QPushButton::clicked, this, [&]()
+                     { set_filter_number(2);
+                       change_image(get_filtered_image(2)); 
+                       set_deleteF_enabled(get_filter_name(2)); });
+    QObject::connect(pushButton_back, &QPushButton::clicked, this, &MainWindow::back_from_filters);
+    QObject::connect(pushButton_applyFilter, &QPushButton::clicked, this, &MainWindow::apply_filter);
+    QObject::connect(pushButton_deleteF, &QPushButton::clicked, this, &MainWindow::delete_filter);
+    QObject::connect(pushButton_addF, &QPushButton::clicked, this, [&]()
+                     {   FN_W->set_filters(&filters);
+                         FN_W->show(); });
+    QObject::connect(FN_W, &FilterName_window::filter_name_got, this, &MainWindow::add_filter);
 }

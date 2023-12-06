@@ -19,6 +19,13 @@
   <property name="windowTitle">
    <string notr="true">Photored</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="icons.qrc">
+    <normaloff>:/mainwindow_icon.png</normaloff>:/mainwindow_icon.png</iconset>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_2">
     <item row="2" column="4">
@@ -424,25 +431,6 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_crop">
-        <property name="minimumSize">
-         <size>
-          <width>100</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Crop</string>
-        </property>
-       </widget>
-      </item>
-      <item>
        <widget class="QPushButton" name="pushButton_filters">
         <property name="minimumSize">
          <size>
@@ -503,8 +491,18 @@
             <height>35</height>
            </size>
           </property>
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Rotate left&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="whatsThis">
+           <string/>
+          </property>
           <property name="text">
-           <string>left</string>
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="icons.qrc">
+            <normaloff>:/arrowToLeft.png</normaloff>:/arrowToLeft.png</iconset>
           </property>
          </widget>
         </item>
@@ -528,8 +526,18 @@
             <height>35</height>
            </size>
           </property>
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Rotate right&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="whatsThis">
+           <string/>
+          </property>
           <property name="text">
-           <string>right</string>
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="icons.qrc">
+            <normaloff>:/arrowToRight.png</normaloff>:/arrowToRight.png</iconset>
           </property>
          </widget>
         </item>
@@ -585,7 +593,7 @@
      </widget>
     </item>
     <item row="1" column="1">
-     <widget class="QGraphicsView" name="graphicsView_main_im">
+     <widget class="ViewWithoutWheel" name="graphicsView_main_im">
       <property name="verticalScrollBarPolicy">
        <enum>Qt::ScrollBarAlwaysOff</enum>
       </property>
@@ -606,6 +614,9 @@
       </property>
       <property name="interactive">
        <bool>true</bool>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
       </property>
      </widget>
     </item>
@@ -652,8 +663,15 @@
    <extends>QPushButton</extends>
    <header>iconautosizepushbutton.h</header>
   </customwidget>
+  <customwidget>
+   <class>ViewWithoutWheel</class>
+   <extends>QGraphicsView</extends>
+   <header>viewwithoutwheel.h</header>
+  </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="icons.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>pushButton_New</sender>
@@ -1392,22 +1410,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>pushButton_crop</sender>
-   <signal>clicked()</signal>
-   <receiver>out_amount</receiver>
-   <slot>show()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>887</x>
-     <y>276</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>887</x>
-     <y>425</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>pushButton_filters</sender>
    <signal>clicked()</signal>
    <receiver>pushButton_brightness</receiver>
@@ -1484,22 +1486,6 @@
     <hint type="destinationlabel">
      <x>887</x>
      <y>246</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>pushButton_filters</sender>
-   <signal>clicked()</signal>
-   <receiver>pushButton_crop</receiver>
-   <slot>hide()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>887</x>
-     <y>307</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>887</x>
-     <y>276</y>
     </hint>
    </hints>
   </connection>

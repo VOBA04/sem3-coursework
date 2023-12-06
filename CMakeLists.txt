@@ -13,6 +13,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+find_package(Qt6 REQUIRED COMPONENTS LinguistTools)
 
 set(PROJECT_SOURCES
         main.cpp
@@ -27,19 +28,23 @@ set(PROJECT_SOURCES
         workerthread.cpp
         cvmatandqimage.h
         cvmatandqimage.cpp
-        imageautosizeview.h
+        viewwithoutwheel.h
         image_filters.h
         image_filters.cpp
         MyRing.h
         set_FilterName_window.ui
         set_FilterName_window.cpp
         set_FilterName_window.h
+        icons.qrc
 )
 
 qt_add_executable(photored
     MANUAL_FINALIZATION
     ${PROJECT_SOURCES}
 )
+
+# qt_add_translations(photored 
+    # TS_FILES photored_ru.ts)
 
 target_link_libraries(photored PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 
