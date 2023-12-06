@@ -80,7 +80,7 @@ void MainWindow::start_proc(QString &QPath)
     QString Qpath_from;
     if (QPath.isEmpty())
     {
-        Qpath_from = QFileDialog::getOpenFileName(this, QObject::tr("Open file"), "D:\\", QObject::tr("Images (*.png *.jpg)"), nullptr /* , QFileDialog::DontUseNativeDialog */);
+        Qpath_from = QFileDialog::getOpenFileName(this, QObject::tr("Open file"), "D:\\", QObject::tr("Images (*.png *.jpg)"), nullptr);
         for (int i = 0; i < Qpath_from.size(); i++)
         {
             if (Qpath_from[i] == '/')
@@ -215,7 +215,7 @@ void MainWindow::save_image()
     QString filter = "PNG(*.png);;JPG(*.jpg)", selected_filter;
     QString filename;
     filename = filename.toUtf8();
-    filename = QFileDialog::getSaveFileName(this, QObject::tr("Save File"), "D:\\", filter, &selected_filter /* , QFileDialog::DontUseNativeDialog */);
+    filename = QFileDialog::getSaveFileName(this, QObject::tr("Save File"), "D:\\", filter, &selected_filter);
     if (!filename.isEmpty())
     {
         for (int i = 0; i < filename.size(); i++)
@@ -297,6 +297,7 @@ void MainWindow::apply_filter()
     prepare_image();
     back_from_filters();
 }
+
 void MainWindow::rotate_left()
 {
     Mat image = QtOcv::image2Mat(image_info.image_in_proc->toImage());
