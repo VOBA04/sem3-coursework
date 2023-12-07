@@ -129,7 +129,7 @@ public:
         }
         if (index < 0)
         {
-            for (int i = 0; i > index; i++)
+            for (int i = 0; i > index; i--)
                 temp = temp->prev;
         }
         return temp->data;

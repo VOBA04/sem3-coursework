@@ -82,7 +82,7 @@ void MainWindow::start_proc(QString &QPath)
     QString Qpath_from;
     if (QPath.isEmpty())
     {
-        Qpath_from = QFileDialog::getOpenFileName(this, QObject::tr("Open file"), "D:\\", QObject::tr("Images (*.png *.jpg)"), nullptr);
+        Qpath_from = QFileDialog::getOpenFileName(this, QObject::tr("Open file"), "", QObject::tr("Images (*.png *.jpg)"), nullptr);
         for (int i = 0; i < Qpath_from.size(); i++)
         {
             if (Qpath_from[i] == '/')
@@ -232,13 +232,21 @@ void MainWindow::save_image()
         for (int i = 0; i < filename.size(); i++)
             if (filename[i] == '/')
                 filename[i] = '\\';
-        set_curr_proc(PROCESSES::NON);
-        cv::imwrite(filename.toStdString(), QtOcv::image2Mat(image_info.image_in_proc->toImage()));
+        prepare_image();
+        image_info.image_in_proc->save(filename);
     }
 }
 
 void MainWindow::set_new_image()
 {
+    save_filters();
+    current_process = PROCESSES::NON;
+    show_pressed_button();
+    image_info.brightness = 0;
+    image_info.contrast = 0;
+    image_info.saturation = 0;
+    image_info.clarity = 0;
+    image_info.temperture = 0;
     graphicsView_main_im->hide();
     regulation->hide();
     pushButton_brightness->hide();

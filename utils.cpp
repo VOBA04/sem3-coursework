@@ -398,7 +398,10 @@ void MainWindow::set_connections()
                         prepare_image(); });
     QObject::connect(regulation, SIGNAL(sliderMoved(int)), out_amount, SLOT(setNum(int)));
     QObject::connect(regulation, &QSlider::sliderMoved, this, &MainWindow::main_proc);
-    QObject::connect(actionExport, &QAction::triggered, this, &MainWindow::save_image);
+    QObject::connect(actionExport, &QAction::triggered, this, [&]()
+                     {  end_main_proc();
+                        set_curr_proc(PROCESSES::NON); 
+                        save_image(); });
     QObject::connect(actionNew_image, &QAction::triggered, this, &MainWindow::set_new_image);
     QObject::connect(pushButton_left, &QPushButton::clicked, this, [&]()
                      {  end_main_proc();
@@ -446,15 +449,18 @@ void MainWindow::set_connections()
     QObject::connect(actionRussian, &QAction::triggered, this, [&]()
                      { change_language("ru"); 
                        actionRussian->setEnabled(false);
-                       actionEnglish->setEnabled(true); });
+                       actionEnglish->setEnabled(true); 
+                       actionBelarusian->setEnabled(true); });
     QObject::connect(actionEnglish, &QAction::triggered, this, [&]()
                      { change_language("en");
                        actionRussian->setEnabled(true);
-                       actionEnglish->setEnabled(false); });
+                       actionEnglish->setEnabled(false); 
+                       actionBelarusian->setEnabled(true); });
     QObject::connect(actionBelarusian, &QAction::triggered, this, [&]()
                      { change_language("be");
                        actionRussian->setEnabled(true);
-                       actionEnglish->setEnabled(false); });
+                       actionEnglish->setEnabled(true); 
+                       actionBelarusian->setEnabled(false); });
 }
 
 void MainWindow::changeEvent(QEvent *e)

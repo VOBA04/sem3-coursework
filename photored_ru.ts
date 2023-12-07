@@ -50,7 +50,7 @@
     <message>
         <location filename="mainwindow.ui" line="+42"/>
         <location/>
-        <location filename="build/photored_autogen/include/ui_mainwindow.h" line="+497"/>
+        <location filename="build/photored_autogen/include/ui_mainwindow.h" line="+500"/>
         <source>Add filter</source>
         <translation>Добавить фильтр</translation>
     </message>
@@ -62,7 +62,7 @@
         <translation>Удалить фильтр</translation>
     </message>
     <message>
-        <location line="+264"/>
+        <location line="+273"/>
         <location/>
         <location filename="build/photored_autogen/include/ui_mainwindow.h" line="+11"/>
         <source>Open new image</source>
@@ -216,7 +216,7 @@
     <message>
         <location line="+0"/>
         <source>Images (*.png *.jpg)</source>
-        <translation>Картинки</translation>
+        <translation>Изображения (*.png *.jpg)</translation>
     </message>
     <message>
         <location line="+144"/>

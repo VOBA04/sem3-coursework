@@ -14,6 +14,7 @@ void MyThread::run()
         queue.pop();
         cv::Mat image = oper_now->exec();
         emit signalGUI(image);
+        delete oper_now;
     }
 }
 
