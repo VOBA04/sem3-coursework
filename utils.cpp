@@ -473,5 +473,7 @@ void MainWindow::changeEvent(QEvent *e)
 
 void MainWindow::change_language(const char *lng)
 {
-    qtlangtransl.load("photored_" + QString(lng) + ".");
+    if (!qtlangtransl.load("photored_" + QString(lng) + "."))
+    {
+    }
 }
