@@ -195,7 +195,7 @@
          </size>
         </property>
         <property name="text">
-         <string>&lt;&lt;&lt;</string>
+         <string notr="true">&lt;&lt;&lt;</string>
         </property>
        </widget>
       </item>
@@ -208,7 +208,7 @@
          </size>
         </property>
         <property name="text">
-         <string>&gt;&gt;&gt;</string>
+         <string notr="true">&gt;&gt;&gt;</string>
         </property>
        </widget>
       </item>
@@ -309,6 +309,11 @@
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+         </font>
         </property>
         <property name="text">
          <string>Open new image</string>
@@ -638,7 +643,22 @@
     <addaction name="actionNew_image"/>
     <addaction name="actionExport"/>
    </widget>
+   <widget class="QMenu" name="menuSettings">
+    <property name="title">
+     <string>Settings</string>
+    </property>
+    <widget class="QMenu" name="menuLanguage">
+     <property name="title">
+      <string>Language</string>
+     </property>
+     <addaction name="actionEnglish"/>
+     <addaction name="actionRussian"/>
+     <addaction name="actionBelarusian"/>
+    </widget>
+    <addaction name="menuLanguage"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuSettings"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionExport">
@@ -646,14 +666,24 @@
     <string>Export</string>
    </property>
   </action>
-  <action name="actionSave_as">
-   <property name="text">
-    <string>Save as...</string>
-   </property>
-  </action>
   <action name="actionNew_image">
    <property name="text">
     <string>New image</string>
+   </property>
+  </action>
+  <action name="actionEnglish">
+   <property name="text">
+    <string>English</string>
+   </property>
+  </action>
+  <action name="actionRussian">
+   <property name="text">
+    <string>Russian</string>
+   </property>
+  </action>
+  <action name="actionBelarusian">
+   <property name="text">
+    <string>Belarusian</string>
    </property>
   </action>
  </widget>
@@ -673,102 +703,6 @@
   <include location="icons.qrc"/>
  </resources>
  <connections>
-  <connection>
-   <sender>pushButton_New</sender>
-   <signal>clicked()</signal>
-   <receiver>pushButton_Rec_open_1</receiver>
-   <slot>hide()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>166</x>
-     <y>136</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>378</x>
-     <y>204</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>pushButton_New</sender>
-   <signal>clicked()</signal>
-   <receiver>pushButton_Rec_open_3</receiver>
-   <slot>hide()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>166</x>
-     <y>136</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>378</x>
-     <y>314</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>pushButton_New</sender>
-   <signal>clicked()</signal>
-   <receiver>pushButton_Rec_open_2</receiver>
-   <slot>hide()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>166</x>
-     <y>136</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>152</x>
-     <y>314</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>pushButton_New</sender>
-   <signal>clicked()</signal>
-   <receiver>pushButton_Rec_open_4</receiver>
-   <slot>hide()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>166</x>
-     <y>136</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>164</x>
-     <y>425</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>pushButton_New</sender>
-   <signal>clicked()</signal>
-   <receiver>pushButton_Rec_open_5</receiver>
-   <slot>hide()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>166</x>
-     <y>136</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>378</x>
-     <y>425</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>pushButton_New</sender>
-   <signal>clicked()</signal>
-   <receiver>pushButton_New</receiver>
-   <slot>hide()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>59</x>
-     <y>124</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>69</x>
-     <y>123</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>pushButton_Rec_open_1</sender>
    <signal>clicked()</signal>
@@ -1417,7 +1351,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>887</x>
-     <y>307</y>
+     <y>297</y>
     </hint>
     <hint type="destinationlabel">
      <x>796</x>
@@ -1433,7 +1367,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>887</x>
-     <y>307</y>
+     <y>297</y>
     </hint>
     <hint type="destinationlabel">
      <x>808</x>
@@ -1449,7 +1383,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>887</x>
-     <y>307</y>
+     <y>297</y>
     </hint>
     <hint type="destinationlabel">
      <x>887</x>
@@ -1465,7 +1399,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>887</x>
-     <y>307</y>
+     <y>297</y>
     </hint>
     <hint type="destinationlabel">
      <x>887</x>
@@ -1481,7 +1415,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>887</x>
-     <y>307</y>
+     <y>297</y>
     </hint>
     <hint type="destinationlabel">
      <x>887</x>
@@ -1497,7 +1431,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>887</x>
-     <y>307</y>
+     <y>297</y>
     </hint>
     <hint type="destinationlabel">
      <x>772</x>
@@ -1513,11 +1447,11 @@
    <hints>
     <hint type="sourcelabel">
      <x>887</x>
-     <y>307</y>
+     <y>297</y>
     </hint>
     <hint type="destinationlabel">
      <x>830</x>
-     <y>411</y>
+     <y>408</y>
     </hint>
    </hints>
   </connection>
@@ -1529,11 +1463,11 @@
    <hints>
     <hint type="sourcelabel">
      <x>887</x>
-     <y>307</y>
+     <y>297</y>
     </hint>
     <hint type="destinationlabel">
      <x>879</x>
-     <y>411</y>
+     <y>408</y>
     </hint>
    </hints>
   </connection>
@@ -1545,7 +1479,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>887</x>
-     <y>307</y>
+     <y>297</y>
     </hint>
     <hint type="destinationlabel">
      <x>455</x>
@@ -1561,7 +1495,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>887</x>
-     <y>307</y>
+     <y>297</y>
     </hint>
     <hint type="destinationlabel">
      <x>526</x>
@@ -1577,7 +1511,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>887</x>
-     <y>307</y>
+     <y>297</y>
     </hint>
     <hint type="destinationlabel">
      <x>581</x>
@@ -1593,7 +1527,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>887</x>
-     <y>307</y>
+     <y>297</y>
     </hint>
     <hint type="destinationlabel">
      <x>633</x>
@@ -1609,7 +1543,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>887</x>
-     <y>307</y>
+     <y>297</y>
     </hint>
     <hint type="destinationlabel">
      <x>753</x>
@@ -1625,7 +1559,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>887</x>
-     <y>307</y>
+     <y>297</y>
     </hint>
     <hint type="destinationlabel">
      <x>513</x>
@@ -1641,7 +1575,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>887</x>
-     <y>307</y>
+     <y>297</y>
     </hint>
     <hint type="destinationlabel">
      <x>578</x>
@@ -1657,7 +1591,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>887</x>
-     <y>307</y>
+     <y>297</y>
     </hint>
     <hint type="destinationlabel">
      <x>639</x>
@@ -1673,11 +1607,11 @@
    <hints>
     <hint type="sourcelabel">
      <x>887</x>
-     <y>307</y>
+     <y>297</y>
     </hint>
     <hint type="destinationlabel">
      <x>887</x>
-     <y>368</y>
+     <y>365</y>
     </hint>
    </hints>
   </connection>
@@ -1689,7 +1623,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>887</x>
-     <y>307</y>
+     <y>297</y>
     </hint>
     <hint type="destinationlabel">
      <x>887</x>
@@ -1705,7 +1639,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>887</x>
-     <y>307</y>
+     <y>297</y>
     </hint>
     <hint type="destinationlabel">
      <x>887</x>
@@ -1740,8 +1674,8 @@
      <y>297</y>
     </hint>
     <hint type="destinationlabel">
-     <x>862</x>
-     <y>300</y>
+     <x>887</x>
+     <y>297</y>
     </hint>
    </hints>
   </connection>
@@ -1752,8 +1686,8 @@
    <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>822</x>
-     <y>298</y>
+     <x>887</x>
+     <y>297</y>
     </hint>
     <hint type="destinationlabel">
      <x>827</x>

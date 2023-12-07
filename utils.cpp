@@ -443,4 +443,29 @@ void MainWindow::set_connections()
                      {   FN_W->set_filters(&filters);
                          FN_W->show(); });
     QObject::connect(FN_W, &FilterName_window::filter_name_got, this, &MainWindow::add_filter);
+    QObject::connect(actionRussian, &QAction::triggered, this, [&]()
+                     { change_language("ru"); 
+                       actionRussian->setEnabled(false);
+                       actionEnglish->setEnabled(true); });
+    QObject::connect(actionEnglish, &QAction::triggered, this, [&]()
+                     { change_language("en");
+                       actionRussian->setEnabled(true);
+                       actionEnglish->setEnabled(false); });
+    QObject::connect(actionBelarusian, &QAction::triggered, this, [&]()
+                     { change_language("be");
+                       actionRussian->setEnabled(true);
+                       actionEnglish->setEnabled(false); });
+}
+
+void MainWindow::changeEvent(QEvent *e)
+{
+    if (e->type() == QEvent::LanguageChange)
+    {
+        retranslateUi(this);
+    }
+}
+
+void MainWindow::change_language(const char *lng)
+{
+    qtlangtransl.load("photored_" + QString(lng) + ".");
 }

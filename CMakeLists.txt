@@ -43,8 +43,13 @@ qt_add_executable(photored
     ${PROJECT_SOURCES}
 )
 
-# qt_add_translations(photored 
-    # TS_FILES photored_ru.ts)
+qt_add_translations(photored TS_FILES 
+    photored_ru.ts
+    photored_be.ts
+)
+
+add_dependencies(photored photored_lupdate)
+add_dependencies(photored update_translations)
 
 target_link_libraries(photored PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 

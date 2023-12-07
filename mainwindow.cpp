@@ -8,6 +8,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     image_info.image_in_proc = new QPixmap;
     pixmap = new QGraphicsPixmapItem;
     graphicsScene = new QGraphicsScene;
+    qApp->installTranslator(&qtlangtransl);
     graphicsScene->addItem(pixmap);
     graphicsView_main_im->setScene(graphicsScene);
     image_info.brightness = 0;
@@ -35,6 +36,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     pushButton_right->hide();
     actionExport->setEnabled(false);
     actionNew_image->setEnabled(false);
+    actionEnglish->setEnabled(false);
     pushButton_applyFilter->hide();
     pushButton_filters->hide();
     pushButton_centerF->hide();
@@ -69,9 +71,9 @@ MainWindow::~MainWindow()
 
 void MainWindow::change_image(cv::Mat cv_im)
 {
-    QPixmap Qimage = QPixmap::fromImage(QtOcv::mat2Image(cv_im));
-    pixmap->setPixmap(Qimage);
-    QSize sz = Qimage.size();
+    QPixmap Qpixmap = QPixmap::fromImage(QtOcv::mat2Image(cv_im));
+    pixmap->setPixmap(Qpixmap);
+    QSize sz = Qpixmap.size();
     graphicsView_main_im->fitInView(pixmap, Qt::KeepAspectRatio);
 }
 
@@ -91,55 +93,64 @@ void MainWindow::start_proc(QString &QPath)
     }
     else
         Qpath_from = QPath;
-    QPixmap Qimage(Qpath_from);
-    *(image_info.start_image) = Qimage;
-    *(image_info.image_in_proc) = Qimage;
-    graphicsView_main_im->show();
-    pixmap = new QGraphicsPixmapItem;
-    graphicsScene = new QGraphicsScene;
-    graphicsScene->addItem(pixmap);
-    graphicsView_main_im->setScene(graphicsScene);
-    QSize sz = Qimage.size();
-    pixmap->setPixmap(Qimage);
-    graphicsView_main_im->fitInView(pixmap, Qt::KeepAspectRatio);
-    label_greeting->hide();
-    pushButton_brightness->show();
-    pushButton_clarity->show();
-    pushButton_temperature->show();
-    pushButton_contrast->show();
-    pushButton_saturation->show();
-    pushButton_left->show();
-    pushButton_right->show();
-    pushButton_filters->show();
-    actionExport->setEnabled(true);
-    actionNew_image->setEnabled(true);
-    QFile file;
-    file.setFileName("D:\\University\\cs\\sem3\\cursach\\photored\\recently_opened.json");
-    file.open(QIODevice::ReadWrite);
-    QString s;
-    s = file.readAll();
-    QJsonDocument d;
-    d = QJsonDocument::fromJson(s.toUtf8());
-    QJsonArray pathes = d.array();
-    QJsonValue path(Qpath_from);
-    if (!pathes.contains(path))
+    if (!Qpath_from.isEmpty())
     {
-        int n = pathes.size();
-        if (n < 5)
+        QPixmap Qpixmap(Qpath_from);
+        *(image_info.start_image) = Qpixmap;
+        *(image_info.image_in_proc) = Qpixmap;
+        graphicsView_main_im->show();
+        pixmap = new QGraphicsPixmapItem;
+        graphicsScene = new QGraphicsScene;
+        graphicsScene->addItem(pixmap);
+        graphicsView_main_im->setScene(graphicsScene);
+        QSize sz = Qpixmap.size();
+        pixmap->setPixmap(Qpixmap);
+        graphicsView_main_im->fitInView(pixmap, Qt::KeepAspectRatio);
+        label_greeting->hide();
+        pushButton_Rec_open_1->hide();
+        pushButton_Rec_open_2->hide();
+        pushButton_Rec_open_3->hide();
+        pushButton_Rec_open_4->hide();
+        pushButton_Rec_open_5->hide();
+        pushButton_New->hide();
+        pushButton_brightness->show();
+        pushButton_clarity->show();
+        pushButton_temperature->show();
+        pushButton_contrast->show();
+        pushButton_saturation->show();
+        pushButton_left->show();
+        pushButton_right->show();
+        pushButton_filters->show();
+        actionExport->setEnabled(true);
+        actionNew_image->setEnabled(true);
+        QFile file;
+        file.setFileName("D:\\University\\cs\\sem3\\cursach\\photored\\recently_opened.json");
+        file.open(QIODevice::ReadWrite);
+        QString s;
+        s = file.readAll();
+        QJsonDocument d;
+        d = QJsonDocument::fromJson(s.toUtf8());
+        QJsonArray pathes = d.array();
+        QJsonValue path(Qpath_from);
+        if (!pathes.contains(path))
         {
-            pathes.push_back(path);
+            int n = pathes.size();
+            if (n < 5)
+            {
+                pathes.push_back(path);
+            }
+            else
+            {
+                pathes.pop_front();
+                pathes.push_back(path);
+            }
+            d.setArray(pathes);
+            s = d.toJson();
+            file.resize(0);
+            file.write(s.toUtf8());
         }
-        else
-        {
-            pathes.pop_front();
-            pathes.push_back(path);
-        }
-        d.setArray(pathes);
-        s = d.toJson();
-        file.resize(0);
-        file.write(s.toUtf8());
+        file.close();
     }
-    file.close();
 }
 
 void MainWindow::main_proc(int value)

@@ -18,6 +18,9 @@ public:
     bool is_name_in_filters(std::string);
     std::string get_filter_name();
 
+protected:
+    void changeEvent(QEvent *) override;
+
 public slots:
     void save_filter_name();
 

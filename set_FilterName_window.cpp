@@ -32,12 +32,12 @@ void FilterName_window::save_filter_name()
         s.erase(s.length() - 1, 1);
     if (s.empty())
     {
-        label_2->setText("Name is empty");
+        label_2->setText(tr("Name is empty"));
         return;
     }
     if (is_name_in_filters(s))
     {
-        label_2->setText("This name already exists");
+        label_2->setText(tr("This name already exists"));
         return;
     }
     filter_name = s;
@@ -48,4 +48,12 @@ void FilterName_window::save_filter_name()
 std::string FilterName_window::get_filter_name()
 {
     return filter_name;
+}
+
+void FilterName_window::changeEvent(QEvent *e)
+{
+    if (e->type() == QEvent::LanguageChange)
+    {
+        retranslateUi(this);
+    }
 }

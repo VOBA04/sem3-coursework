@@ -51,6 +51,7 @@ class MainWindow : public QMainWindow, protected Ui::MainWindow
     MyRing<Filter *> filters;
     int filter_number;
     void set_connections();
+    QTranslator qtlangtransl;
 
 public:
     FilterName_window *FN_W;
@@ -67,6 +68,7 @@ public:
     ~MainWindow();
 
 public slots:
+    void change_image(cv::Mat);
     void set_rec_opened_butts();
     void start_proc(QString &);
     void main_proc(int);
@@ -83,8 +85,10 @@ public slots:
     void delete_filter();
     void add_filter();
     void show_pressed_button();
+    void change_language(const char *);
 
 protected:
+    void changeEvent(QEvent *) override;
     QGraphicsScene *graphicsScene;
     QGraphicsPixmapItem *pixmap;
     struct image_info
@@ -94,9 +98,6 @@ protected:
         int brightness, contrast, saturation, clarity, temperture;
         FILTER filter;
     } image_info;
-
-public slots:
-    void change_image(cv::Mat);
 };
 
 #endif // MAINWINDOW_H
