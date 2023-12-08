@@ -18,12 +18,12 @@ protected:
 public:
     Mat apply();
     std::string get_filter_name();
-    virtual int get_brightness();
-    virtual int get_contrast();
-    virtual int get_saturation();
-    virtual int get_clarity();
-    virtual int get_temperature();
-    virtual ~Filter() = 0 ;
+    int get_brightness();
+    int get_contrast();
+    int get_saturation();
+    int get_clarity();
+    int get_temperature();
+    virtual ~Filter() = 0;
 };
 
 class Inverse : public Filter

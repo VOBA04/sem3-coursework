@@ -174,10 +174,6 @@
         <translation>Экспорт</translation>
     </message>
     <message>
-        <source>Save as...</source>
-        <translation></translation>
-    </message>
-    <message>
         <location line="+5"/>
         <location/>
         <location filename="build/photored_autogen/include/ui_mainwindow.h" line="+1"/>

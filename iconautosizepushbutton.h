@@ -21,7 +21,7 @@ public:
         return image_path;
     }
 public slots:
-    void resizeEvent(QResizeEvent *e)
+    void resizeEvent(QResizeEvent *e) override
     {
         setIconSize(icon().actualSize(QSize(
             e->size().width() - 10,

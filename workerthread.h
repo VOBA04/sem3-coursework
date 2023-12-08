@@ -19,7 +19,7 @@ public:
     void push(Operation *);
 
 protected:
-    virtual void run();
+    virtual void run() override;
 signals:
     void signalGUI(cv::Mat);
 public slots:

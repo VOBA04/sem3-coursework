@@ -1,2 +1,10 @@
 [
+    {
+        "brightness": 13,
+        "clarity": 0,
+        "contrast": 30,
+        "name": "filter1",
+        "saturation": 36,
+        "temperature": -26
+    }
 ]

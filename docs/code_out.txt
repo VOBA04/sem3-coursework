@@ -1,0 +1,1165 @@
+Файл iconautosizepushbutton.h: 
+#ifndef ICONAUTOSIZEPUSHBUTTON_H
+#define ICONAUTOSIZEPUSHBUTTON_H
+#include <QPushButton>
+#include <QPixmap>
+#include <QResizeEvent>
+class IconautosizePushButton : public QPushButton {
+  Q_OBJECT
+public:
+  explicit IconautosizePushButton(QWidget *parent = 0) : QPushButton(parent) { }
+  void set_image_path(QString &s) {
+    image_path = s; }
+  QString &get_image_path() {
+    return image_path; }
+public slots:
+  void resizeEvent(QResizeEvent *e) {
+    setIconSize(icon().actualSize(QSize(
+        e->size().width() - 10,
+        e->size().height() - 10)));
+    QPushButton::resizeEvent(e); }
+private:
+  QString image_path;
+};
+#endif // ICONAUTOSIZEPUSHBUTTON_H
+ 
+Файл image_filters.cpp: 
+#include "image_filters.h"
+std::string Filter::get_filter_name() {
+  return name; }
+Mat Filter::apply() {
+  return image; }
+Filter::~Filter() {}
+Inverse::Inverse(Mat image) {
+  name = "Inverse";
+  Mat max255 = image.clone();
+  max255 = Scalar(255, 255, 255);
+  absdiff(max255, image, this->image); }
+Original::Original(Mat image) {
+  this->image = image;
+  name = "Original"; }
+Gray::Gray(Mat image) {
+  this->image = image;
+  name = "Gray";
+  cvtColor(image, this->image, COLOR_BGR2GRAY); }
+CustomFilter::CustomFilter(std::string name, Mat image, int br, int co, int st, int cl, int tmp) {
+  this->name = name;
+  this->image = image;
+  brightness = br;
+  contrast = co;
+  saturation = st;
+  clarity = cl;
+  temperature = tmp;
+  if (brightness) {
+    Oper_brightness oper(brightness, this->image);
+    this->image = oper.exec(); }
+  if (contrast) {
+    Oper_contrast oper(contrast, this->image);
+    this->image = oper.exec(); }
+  if (saturation) {
+    Oper_saturation oper(saturation, this->image);
+    this->image = oper.exec(); }
+  if (clarity) {
+    Oper_clarity oper(clarity, this->image);
+    this->image = oper.exec(); }
+  if (temperature) {
+    Oper_temperature oper(temperature, this->image);
+    this->image = oper.exec(); } }
+int Filter::get_brightness() {
+  return brightness; }
+int Filter::get_contrast() {
+  return contrast; }
+int Filter::get_saturation() {
+  return saturation; }
+int Filter::get_clarity() {
+  return clarity; }
+int Filter::get_temperature() {
+  return temperature; }
+ 
+Файл image_filters.h: 
+#ifndef FILTERS_H
+#define FILTERS_H
+#include <opencv2/core/core.hpp>
+#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/imgproc.hpp>
+#include "image_processing.h"
+using namespace cv;
+class Filter {
+protected:
+  Mat image;
+  std::string name;
+  int brightness, contrast, saturation, clarity, temperature;
+public:
+  Mat apply();
+  std::string get_filter_name();
+  virtual int get_brightness();
+  virtual int get_contrast();
+  virtual int get_saturation();
+  virtual int get_clarity();
+  virtual int get_temperature();
+  virtual ~Filter() = 0;
+};
+class Inverse : public Filter {
+public:
+  Inverse(Mat);
+};
+class Original : public Filter {
+public:
+  Original(Mat);
+};
+class Gray : public Filter {
+public:
+  Gray(Mat);
+};
+class CustomFilter : public Filter {
+public:
+  CustomFilter(std::string, Mat, int, int, int, int, int);
+};
+#endif
+ 
+Файл image_processing.cpp: 
+#include "image_processing.h"
+Mat Oper_brightness::exec() {
+  image.convertTo(image, -1, 1, value);
+  return image; }
+Mat Oper_contrast::exec() {
+  double alpha = 1;
+  alpha += value / 100.0;
+  image.convertTo(image, -1, alpha, 0);
+  return image; }
+Mat Oper_saturation::exec() {
+  cvtColor(image, image, COLOR_BGR2HSV);
+  std::vector<Mat> channels;
+  split(image, channels);
+  double alpha = 1;
+  alpha += value / 100.0;
+  channels[1].convertTo(channels[1], -1, alpha, 0);
+  merge(channels, image);
+  cvtColor(image, image, COLOR_HSV2BGR);
+  return image; }
+Mat Oper_clarity::exec() {
+  if (value > 0) {
+    double alpha = 1;
+    alpha += value / 100.0;
+    Mat kernel = (Mat_<double>(3, 3) << 0, -1 * alpha, 0,
+                  -1 * alpha, 5 * alpha, -1 * alpha,
+                  0, -1 * alpha, 0);
+    filter2D(image, image, image.depth(), kernel); }
+  return image; }
+Mat Oper_temperature::exec() {
+  double gamma = 1;
+  gamma += abs(value) / 100.0;
+  Mat lookUpTable(1, 256, CV_8U);
+  uchar *p = lookUpTable.ptr();
+  for (int i = 0; i < 256; ++i)
+    p[i] = saturate_cast<uchar>(pow(i / 255.0, gamma) * 255.0);
+  std::vector<Mat> bgr;
+  split(image, bgr);
+  if (value < 0)
+    LUT(bgr[2], lookUpTable, bgr[2]);
+  if (value > 0)
+    LUT(bgr[0], lookUpTable, bgr[0]);
+  merge(bgr, image);
+  return image; }
+ 
+Файл image_processing.h: 
+#ifndef IMAGE_PROCESSING_H
+#define IMAGE_PROCESSING_H
+#include <QPixmap>
+#include <opencv2/core/core.hpp>
+#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/imgproc.hpp>
+using namespace cv;
+namespace fs = std::filesystem;
+typedef Point3_<uint8_t> Pixel;
+class Operation {
+protected:
+  int value;
+  Mat image;
+public:
+  virtual Mat exec() = 0;
+};
+class Oper_brightness : public Operation {
+public:
+  Oper_brightness(int val, Mat image) {
+    value = val;
+    this->image = image; }
+  virtual Mat exec() override;
+};
+class Oper_contrast : public Operation {
+public:
+  Oper_contrast(int val, Mat image) {
+    value = val;
+    this->image = image; }
+  virtual Mat exec() override;
+};
+class Oper_saturation : public Operation {
+public:
+  Oper_saturation(int val, Mat image) {
+    value = val;
+    this->image = image; }
+  virtual Mat exec() override;
+};
+class Oper_clarity : public Operation {
+public:
+  Oper_clarity(int val, Mat image) {
+    value = val;
+    this->image = image; }
+  virtual Mat exec() override;
+};
+class Oper_temperature : public Operation {
+public:
+  Oper_temperature(int val, Mat image) {
+    value = val;
+    this->image = image; }
+  virtual Mat exec() override;
+};
+#endif
+ 
+Файл main.cpp: 
+#include "mainwindow.h"
+#include <QApplication>
+#include <cstdlib>
+#include <iostream>
+#include "image_processing.h"
+int main(int argc, char *argv[]) {
+  QApplication a(argc, argv);
+  MainWindow w;
+  w.show();
+  return a.exec(); }
+ 
+Файл mainwindow.cpp: 
+#include "mainwindow.h"
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
+  setupUi(this);
+  FN_W = new FilterName_window();
+  image_info.start_image = new QPixmap;
+  image_info.image_in_proc = new QPixmap;
+  pixmap = new QGraphicsPixmapItem;
+  graphicsScene = new QGraphicsScene;
+  qApp->installTranslator(&qtlangtransl);
+  graphicsScene->addItem(pixmap);
+  graphicsView_main_im->setScene(graphicsScene);
+  image_info.brightness = 0;
+  image_info.contrast = 0;
+  image_info.saturation = 0;
+  image_info.clarity = 0;
+  image_info.temperture = 0;
+  image_info.filter = FILTER::ORIGINAL;
+  FN_W->hide();
+  FN_W->setWindowModality(Qt::WindowModality::ApplicationModal);
+  graphicsView_main_im->hide();
+  pushButton_Rec_open_1->hide();
+  pushButton_Rec_open_2->hide();
+  pushButton_Rec_open_3->hide();
+  pushButton_Rec_open_4->hide();
+  pushButton_Rec_open_5->hide();
+  pushButton_brightness->hide();
+  pushButton_clarity->hide();
+  pushButton_temperature->hide();
+  pushButton_contrast->hide();
+  pushButton_saturation->hide();
+  regulation->hide();
+  out_amount->hide();
+  pushButton_left->hide();
+  pushButton_right->hide();
+  actionExport->setEnabled(false);
+  actionNew_image->setEnabled(false);
+  actionEnglish->setEnabled(false);
+  pushButton_applyFilter->hide();
+  pushButton_filters->hide();
+  pushButton_centerF->hide();
+  pushButton_leftF->hide();
+  pushButton_rightF->hide();
+  pushButton_toLeft->hide();
+  pushButton_toRight->hide();
+  label_centerFname->hide();
+  label_leftFname->hide();
+  label_rightFname->hide();
+  pushButton_back->hide();
+  pushButton_addF->hide();
+  pushButton_deleteF->hide();
+  set_curr_proc(PROCESSES::NON);
+  set_rec_opened_butts();
+  mythread = new MyThread();
+  QObject::connect(QApplication::instance(), &QApplication::aboutToQuit, mythread, &MyThread::terminateThread);
+  mythread->start();
+  QObject::connect(mythread, &MyThread::signalGUI, this, &MainWindow::change_image);
+  set_connections(); }
+MainWindow::~MainWindow() {
+  if (!filters.empty())
+    save_filters();
+  delete image_info.start_image;
+  delete image_info.image_in_proc;
+  delete pixmap;
+  delete graphicsScene; }
+void MainWindow::change_image(cv::Mat cv_im) {
+  QPixmap Qpixmap = QPixmap::fromImage(QtOcv::mat2Image(cv_im));
+  pixmap->setPixmap(Qpixmap);
+  QSize sz = Qpixmap.size();
+  graphicsView_main_im->fitInView(pixmap, Qt::KeepAspectRatio); }
+void MainWindow::start_proc(QString &QPath) {
+  QString Qpath_from;
+  if (QPath.isEmpty()) {
+    Qpath_from = QFileDialog::getOpenFileName(this, QObject::tr("Open file"), "", QObject::tr("Images (*.png *.jpg)"), nullptr);
+    for (int i = 0; i < Qpath_from.size(); i++) {
+      if (Qpath_from[i] == '/')
+        Qpath_from[i] = '\\'; }
+    if (Qpath_from.isEmpty())
+      return; }
+  else
+    Qpath_from = QPath;
+  if (!Qpath_from.isEmpty()) {
+    QPixmap Qpixmap(Qpath_from);
+    *(image_info.start_image) = Qpixmap;
+    *(image_info.image_in_proc) = Qpixmap;
+    graphicsView_main_im->show();
+    pixmap = new QGraphicsPixmapItem;
+    graphicsScene = new QGraphicsScene;
+    graphicsScene->addItem(pixmap);
+    graphicsView_main_im->setScene(graphicsScene);
+    QSize sz = Qpixmap.size();
+    pixmap->setPixmap(Qpixmap);
+    graphicsView_main_im->fitInView(pixmap, Qt::KeepAspectRatio);
+    label_greeting->hide();
+    pushButton_Rec_open_1->hide();
+    pushButton_Rec_open_2->hide();
+    pushButton_Rec_open_3->hide();
+    pushButton_Rec_open_4->hide();
+    pushButton_Rec_open_5->hide();
+    pushButton_New->hide();
+    pushButton_brightness->show();
+    pushButton_clarity->show();
+    pushButton_temperature->show();
+    pushButton_contrast->show();
+    pushButton_saturation->show();
+    pushButton_left->show();
+    pushButton_right->show();
+    pushButton_filters->show();
+    actionExport->setEnabled(true);
+    actionNew_image->setEnabled(true);
+    QFile file;
+    file.setFileName("D:\\University\\cs\\sem3\\cursach\\photored\\recently_opened.json");
+    file.open(QIODevice::ReadWrite);
+    QString s;
+    s = file.readAll();
+    QJsonDocument d;
+    d = QJsonDocument::fromJson(s.toUtf8());
+    QJsonArray pathes = d.array();
+    QJsonValue path(Qpath_from);
+    if (!pathes.contains(path)) {
+      int n = pathes.size();
+      if (n < 5) {
+        pathes.push_back(path); }
+      else {
+        pathes.pop_front();
+        pathes.push_back(path); }
+      d.setArray(pathes);
+      s = d.toJson();
+      file.resize(0);
+      file.write(s.toUtf8()); }
+    file.close(); } }
+void MainWindow::main_proc(int value) {
+  PROCESSES proc = get_curr_proc();
+  QPixmap image = (*image_info.image_in_proc);
+  switch (proc) {
+  case PROCESSES::BRIGHTNESS: {
+    mythread->push(new Oper_brightness(value, QtOcv::image2Mat(image.toImage())));
+    break; }
+  case PROCESSES::CONTRAST: {
+    mythread->push(new Oper_contrast(value, QtOcv::image2Mat(image.toImage())));
+    break; }
+  case PROCESSES::SATURATUIN: {
+    mythread->push(new Oper_saturation(value, QtOcv::image2Mat(image.toImage())));
+    break; }
+  case PROCESSES::CLARITY: {
+    mythread->push(new Oper_clarity(value, QtOcv::image2Mat(image.toImage())));
+    break; }
+  case PROCESSES::TEMPERATURE: {
+    mythread->push(new Oper_temperature(value, QtOcv::image2Mat(image.toImage())));
+    break; } } }
+void MainWindow::end_main_proc() {
+  PROCESSES proc = get_curr_proc();
+  int value = regulation->value();
+  switch (proc) {
+  case PROCESSES::BRIGHTNESS: {
+    image_info.brightness = value;
+    break; }
+  case PROCESSES::CONTRAST: {
+    image_info.contrast = value;
+    break; }
+  case PROCESSES::SATURATUIN: {
+    image_info.saturation = value;
+    break; }
+  case PROCESSES::CLARITY: {
+    image_info.clarity = value;
+    break; }
+  case PROCESSES::TEMPERATURE: {
+    image_info.temperture = value;
+    break; } } }
+void MainWindow::save_image() {
+  QString filter = "PNG(*.png);;JPG(*.jpg)", selected_filter;
+  QString filename;
+  filename = filename.toUtf8();
+  filename = QFileDialog::getSaveFileName(this, QObject::tr("Save File"), "D:\\", filter, &selected_filter);
+  if (!filename.isEmpty()) {
+    for (int i = 0; i < filename.size(); i++)
+      if (filename[i] == '/')
+        filename[i] = '\\';
+    prepare_image();
+    image_info.image_in_proc->save(filename); } }
+void MainWindow::set_new_image() {
+  save_filters();
+  current_process = PROCESSES::NON;
+  show_pressed_button();
+  image_info.brightness = 0;
+  image_info.contrast = 0;
+  image_info.saturation = 0;
+  image_info.clarity = 0;
+  image_info.temperture = 0;
+  graphicsView_main_im->hide();
+  regulation->hide();
+  pushButton_brightness->hide();
+  pushButton_contrast->hide();
+  pushButton_saturation->hide();
+  pushButton_clarity->hide();
+  pushButton_temperature->hide();
+  out_amount->hide();
+  pushButton_left->hide();
+  pushButton_right->hide();
+  pushButton_filters->hide();
+  pushButton_toLeft->hide();
+  pushButton_leftF->hide();
+  label_leftFname->hide();
+  pushButton_centerF->hide();
+  label_centerFname->hide();
+  pushButton_rightF->hide();
+  label_rightFname->hide();
+  pushButton_toRight->hide();
+  pushButton_addF->hide();
+  pushButton_deleteF->hide();
+  pushButton_back->hide();
+  pushButton_applyFilter->hide();
+  pushButton_New->show();
+  pushButton_Rec_open_1->show();
+  pushButton_Rec_open_2->show();
+  pushButton_Rec_open_3->show();
+  pushButton_Rec_open_4->show();
+  pushButton_Rec_open_5->show();
+  label_greeting->show();
+  actionExport->setEnabled(false);
+  actionNew_image->setEnabled(false);
+  set_rec_opened_butts();
+  delete pixmap;
+  delete graphicsScene; }
+void MainWindow::apply_filter() {
+  std::string filter_name = filters[filter_number]->get_filter_name();
+  if (filter_name == "Inverse") {
+    image_info.filter = FILTER::INVERSE; }
+  else if (filter_name == "Gray") {
+    image_info.filter = FILTER::GRAY; }
+  else if (filter_name == "Original") {
+    image_info.filter = FILTER::ORIGINAL;
+    image_info.brightness = 0;
+    image_info.contrast = 0;
+    image_info.saturation = 0;
+    image_info.clarity = 0;
+    image_info.temperture = 0; }
+  else {
+    image_info.filter = FILTER::CUSTOM;
+    image_info.brightness = filters[filter_number]->get_brightness();
+    image_info.contrast = filters[filter_number]->get_contrast();
+    image_info.saturation = filters[filter_number]->get_saturation();
+    image_info.clarity = filters[filter_number]->get_clarity();
+    image_info.temperture = filters[filter_number]->get_temperature(); }
+  prepare_image();
+  back_from_filters(); }
+void MainWindow::rotate_left() {
+  Mat image = QtOcv::image2Mat(image_info.image_in_proc->toImage());
+  Mat start_image = QtOcv::image2Mat(image_info.start_image->toImage());
+  rotate(image, image, ROTATE_90_COUNTERCLOCKWISE);
+  rotate(start_image, start_image, ROTATE_90_COUNTERCLOCKWISE);
+  (*image_info.image_in_proc) = QPixmap::fromImage(QtOcv::mat2Image(image));
+  (*image_info.start_image) = QPixmap::fromImage(QtOcv::mat2Image(start_image));
+  change_image(image); }
+void MainWindow::rotate_right() {
+  Mat image = QtOcv::image2Mat(image_info.image_in_proc->toImage());
+  Mat start_image = QtOcv::image2Mat(image_info.start_image->toImage());
+  rotate(image, image, ROTATE_90_CLOCKWISE);
+  rotate(start_image, start_image, ROTATE_90_CLOCKWISE);
+  (*image_info.image_in_proc) = QPixmap::fromImage(QtOcv::mat2Image(image));
+  (*image_info.start_image) = QPixmap::fromImage(QtOcv::mat2Image(start_image));
+  change_image(image); }
+ 
+Файл mainwindow.h: 
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
+#include <QMainWindow>
+#include <QFileDialog>
+#include <QTranslator>
+#include "ui_mainwindow.h"
+#include <filesystem>
+#include <string>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonValue>
+#include <QGraphicsScene>
+#include <QGraphicsPixmapItem>
+#include "workerthread.h"
+#include "cvmatandqimage.h"
+#include <opencv2/core/core.hpp>
+#include "MyRing.h"
+#include "image_filters.h"
+#include "set_FilterName_window.h"
+enum class PROCESSES {
+  BRIGHTNESS,
+  CONTRAST,
+  SATURATUIN,
+  CLARITY,
+  TEMPERATURE,
+  ROTATION,
+  FILTER,
+  NON
+};
+enum class FILTER {
+  INVERSE,
+  ORIGINAL,
+  GRAY,
+  CUSTOM
+};
+namespace fs = std::filesystem;
+class MyThread;
+class MainWindow : public QMainWindow, protected Ui::MainWindow {
+  Q_OBJECT
+  MyThread *mythread;
+  PROCESSES current_process;
+  MyRing<Filter *> filters;
+  int filter_number;
+  void set_connections();
+  QTranslator qtlangtransl;
+public:
+  FilterName_window *FN_W;
+  explicit MainWindow(QWidget *parent = nullptr);
+  void set_curr_proc(PROCESSES);
+  PROCESSES get_curr_proc();
+  void prepare_image();
+  void set_filters();
+  void save_filters();
+  cv::Mat get_filtered_image(int);
+  std::string get_filter_name(int);
+  void set_filter_number(int);
+  void next_prev_filter(int);
+  ~MainWindow();
+public slots:
+  void change_image(cv::Mat);
+  void set_rec_opened_butts();
+  void start_proc(QString &);
+  void main_proc(int);
+  void set_slider_limits();
+  void end_main_proc();
+  void rotate_left();
+  void rotate_right();
+  void save_image();
+  void set_new_image();
+  void set_filters_buttons();
+  void set_deleteF_enabled(std::string);
+  void back_from_filters();
+  void apply_filter();
+  void delete_filter();
+  void add_filter();
+  void show_pressed_button();
+  void change_language(const char *);
+protected:
+  void changeEvent(QEvent *) override;
+  QGraphicsScene *graphicsScene;
+  QGraphicsPixmapItem *pixmap;
+  struct image_info {
+    QPixmap *start_image;
+    QPixmap *image_in_proc;
+    int brightness, contrast, saturation, clarity, temperture;
+    FILTER filter;
+  } image_info;
+};
+#endif // MAINWINDOW_H
+ 
+Файл MyRing.h: 
+#ifndef MYRING_H
+#define MYRING_H
+template <typename T>
+class RingNode {
+public:
+  T data;
+  RingNode *next;
+  RingNode *prev;
+  RingNode() {
+    next = nullptr;
+    prev = nullptr; }
+  RingNode(T data) {
+    this->data = data;
+    next = nullptr;
+    prev = nullptr; }
+};
+template <typename T>
+class MyRing {
+  RingNode<T> *head;
+  int ring_size;
+public:
+  MyRing() {
+    head = nullptr;
+    ring_size = 0; }
+  MyRing(const MyRing &other) {
+    RingNode<T> *temp = other.head;
+    for (int i = 0; i < other.ring_size; i++) {
+      push(temp->data);
+      temp = temp->next; }
+    delete temp; }
+  ~MyRing() {
+    while (ring_size)
+      pop_head(); }
+  void push(T data) {
+    RingNode<T> *newNode = new RingNode<T>(data);
+    if (ring_size == 0) {
+      head = newNode;
+      head->next = head;
+      head->prev = head; }
+    else {
+      newNode->prev = head->prev;
+      head->prev->next = newNode;
+      newNode->next = head;
+      head->prev = newNode; }
+    ring_size++; }
+  void pop_head() {
+    if (ring_size == 0)
+      throw "Ring is empty";
+    else if (ring_size == 1) {
+      delete head;
+      head = nullptr; }
+    else {
+      RingNode<T> *temp = head;
+      head->prev->next = head->next;
+      head->next->prev = head->prev;
+      head = head->next;
+      delete temp; }
+    ring_size--; }
+  T get_data() {
+    if (ring_size == 0)
+      throw "Ring is empty";
+    return head->data; }
+  void next_node() {
+    if (ring_size == 0)
+      throw "Ring is empty";
+    head = head->next; }
+  void prev_node() {
+    if (ring_size == 0)
+      throw "Ring is empty";
+    head = head->prev; }
+  bool empty() {
+    if (ring_size)
+      return false;
+    return true; }
+  int size() {
+    return ring_size; }
+  void clean() {
+    while (ring_size)
+      pop_head();
+    head = nullptr; }
+  T &operator[](const int index) {
+    RingNode<T> *temp = head;
+    if (index > 0) {
+      for (int i = 0; i < index; i++)
+        temp = temp->next; }
+    if (index < 0) {
+      for (int i = 0; i > index; i--)
+        temp = temp->prev; }
+    return temp->data; }
+};
+#endif
+ 
+Файл set_FilterName_window.cpp: 
+#include "set_FilterName_window.h"
+FilterName_window::FilterName_window(QWidget *parent) : QWidget(parent) {
+  setupUi(this);
+  QObject::connect(pushButton_cansel, &QPushButton::clicked, this, &FilterName_window::hide);
+  QObject::connect(pushButton_save, &QPushButton::clicked, this, &FilterName_window::save_filter_name); }
+void FilterName_window::set_filters(MyRing<Filter *> *main_filters) {
+  filters = main_filters; }
+bool FilterName_window::is_name_in_filters(std::string filter_name) {
+  for (int i = 0; i < filters->size(); i++) {
+    if ((*filters)[i]->get_filter_name() == filter_name)
+      return true; }
+  return false; }
+void FilterName_window::save_filter_name() {
+  label_2->setText("");
+  std::string s = lineEdit->text().toStdString();
+  while (s[0] == ' ')
+    s.erase(0, 1);
+  while (s[s.length() - 1] == ' ')
+    s.erase(s.length() - 1, 1);
+  if (s.empty()) {
+    label_2->setText(tr("Name is empty"));
+    return; }
+  if (is_name_in_filters(s)) {
+    label_2->setText(tr("This name already exists"));
+    return; }
+  filter_name = s;
+  emit filter_name_got();
+  hide(); }
+std::string FilterName_window::get_filter_name() {
+  return filter_name; }
+void FilterName_window::changeEvent(QEvent *e) {
+  if (e->type() == QEvent::LanguageChange) {
+    retranslateUi(this); } }
+ 
+Файл set_FilterName_window.h: 
+#ifndef SET_FILTERNAME_WINDOW_H
+#define SET_FILTERNAME_WINDOW_H
+#include "ui_set_FilterName_window.h"
+#include "MyRing.h"
+#include "image_filters.h"
+#include <QString>
+class FilterName_window : public QWidget, protected Ui::Form {
+  Q_OBJECT
+  MyRing<Filter *> *filters;
+  std::string filter_name;
+public:
+  explicit FilterName_window(QWidget *parent = nullptr);
+  void set_filters(MyRing<Filter *> *);
+  bool is_name_in_filters(std::string);
+  std::string get_filter_name();
+protected:
+  void changeEvent(QEvent *) override;
+public slots:
+  void save_filter_name();
+signals:
+  void filter_name_got();
+};
+#endif
+ 
+Файл utils.cpp: 
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonValue>
+#include <QJsonObject>
+#include "mainwindow.h"
+#include <QString>
+#include <QFile>
+void MainWindow::set_rec_opened_butts() {
+  QFile file;
+  file.setFileName("D:\\University\\cs\\sem3\\cursach\\photored\\recently_opened.json");
+  if (file.open(QIODevice::ReadOnly)) {
+    QString s;
+    s = file.readAll();
+    file.close();
+    QJsonDocument d;
+    d = QJsonDocument::fromJson(s.toUtf8());
+    QJsonArray pathes = d.array();
+    QJsonValue path;
+    int n = pathes.size();
+    for (int i = 0; i < n; i++) {
+      path = pathes[i];
+      s = path.toString();
+      QPixmap im(s);
+      QIcon but_im(im);
+      switch (i) {
+      case 0:
+        pushButton_Rec_open_1->set_image_path(s);
+        pushButton_Rec_open_1->setIcon(but_im);
+        pushButton_Rec_open_1->show();
+        break;
+      case 1:
+        pushButton_Rec_open_2->set_image_path(s);
+        pushButton_Rec_open_2->setIcon(but_im);
+        pushButton_Rec_open_2->show();
+        break;
+      case 2:
+        pushButton_Rec_open_3->set_image_path(s);
+        pushButton_Rec_open_3->setIcon(but_im);
+        pushButton_Rec_open_3->show();
+        break;
+      case 3:
+        pushButton_Rec_open_4->set_image_path(s);
+        pushButton_Rec_open_4->setIcon(but_im);
+        pushButton_Rec_open_4->show();
+        break;
+      case 4:
+        pushButton_Rec_open_5->set_image_path(s);
+        pushButton_Rec_open_5->setIcon(but_im);
+        pushButton_Rec_open_5->show();
+        break; } } } }
+void MainWindow::set_curr_proc(PROCESSES n) {
+  current_process = n; }
+PROCESSES MainWindow::get_curr_proc() {
+  return current_process; }
+void MainWindow::set_slider_limits() {
+  PROCESSES n = get_curr_proc();
+  regulation->setMinimum(-100);
+  regulation->setMaximum(100);
+  switch (n) {
+  case PROCESSES::BRIGHTNESS: {
+    regulation->setValue(image_info.brightness);
+    out_amount->setNum(image_info.brightness);
+    break; }
+  case PROCESSES::CONTRAST: {
+    regulation->setValue(image_info.contrast);
+    out_amount->setNum(image_info.contrast);
+    break; }
+  case PROCESSES::SATURATUIN: {
+    regulation->setValue(image_info.saturation);
+    out_amount->setNum(image_info.saturation);
+    break; }
+  case PROCESSES::CLARITY: {
+    regulation->setValue(image_info.clarity);
+    out_amount->setNum(image_info.clarity);
+    break; }
+  case PROCESSES::TEMPERATURE: {
+    regulation->setValue(image_info.temperture);
+    out_amount->setNum(image_info.temperture);
+    break; } } }
+void MainWindow::prepare_image() {
+  QPixmap image = *(image_info.start_image);
+  if (current_process != PROCESSES::BRIGHTNESS) {
+    Oper_brightness oper(image_info.brightness, QtOcv::image2Mat(image.toImage()));
+    image = QPixmap::fromImage(QtOcv::mat2Image(oper.exec())); }
+  if (current_process != PROCESSES::CONTRAST) {
+    Oper_contrast oper(image_info.contrast, QtOcv::image2Mat(image.toImage()));
+    image = QPixmap::fromImage(QtOcv::mat2Image(oper.exec())); }
+  if (current_process != PROCESSES::SATURATUIN) {
+    Oper_saturation oper(image_info.saturation, QtOcv::image2Mat(image.toImage()));
+    image = QPixmap::fromImage(QtOcv::mat2Image(oper.exec())); }
+  if (current_process != PROCESSES::CLARITY) {
+    Oper_clarity oper(image_info.clarity, QtOcv::image2Mat(image.toImage()));
+    image = QPixmap::fromImage(QtOcv::mat2Image(oper.exec())); }
+  if (current_process != PROCESSES::TEMPERATURE) {
+    Oper_temperature oper(image_info.temperture, QtOcv::image2Mat(image.toImage()));
+    image = QPixmap::fromImage(QtOcv::mat2Image(oper.exec())); }
+  if (image_info.filter == FILTER::INVERSE) {
+    Inverse filt(QtOcv::image2Mat(image.toImage()));
+    image = QPixmap::fromImage(QtOcv::mat2Image(filt.apply())); }
+  else if (image_info.filter == FILTER::GRAY) {
+    Gray filt(QtOcv::image2Mat(image.toImage()));
+    image = QPixmap::fromImage(QtOcv::mat2Image(filt.apply())); }
+  (*image_info.image_in_proc) = image; }
+void MainWindow::set_filter_number(int n) {
+  filter_number = n; }
+void MainWindow::set_filters() {
+  pushButton_deleteF->setEnabled(false);
+  FILTER temp = image_info.filter;
+  image_info.filter = FILTER::CUSTOM;
+  prepare_image();
+  image_info.filter = temp;
+  filters.clean();
+  Mat image = QtOcv::image2Mat(image_info.image_in_proc->toImage());
+  Mat start_image = QtOcv::image2Mat(image_info.start_image->toImage());
+  filters.push(new Inverse(image));
+  filters.push(new Original(start_image.clone()));
+  filters.push(new Gray(image));
+  QFile file;
+  file.setFileName("D:\\University\\cs\\sem3\\cursach\\photored\\filters_inform.json");
+  file.open(QIODevice::ReadOnly);
+  QString s;
+  s = file.readAll();
+  file.close();
+  QJsonDocument d;
+  d = QJsonDocument::fromJson(s.toUtf8());
+  QJsonArray js_filters = d.array();
+  QJsonObject js_filter;
+  std::string filter_name;
+  int br, co, st, cl, tmp;
+  for (int i = 0; i < js_filters.size(); i++) {
+    js_filter = js_filters[i].toObject();
+    filter_name = js_filter["name"].toString().toStdString();
+    br = js_filter["brightness"].toInt();
+    co = js_filter["contrast"].toInt();
+    st = js_filter["saturation"].toInt();
+    cl = js_filter["clarity"].toInt();
+    tmp = js_filter["temperature"].toInt();
+    filters.push(new CustomFilter(filter_name, start_image.clone(), br, co, st, cl, tmp)); } }
+void MainWindow::save_filters() {
+  QFile file;
+  file.setFileName("D:\\University\\cs\\sem3\\cursach\\photored\\filters_inform.json");
+  file.open(QIODevice::WriteOnly);
+  file.resize(0);
+  QJsonObject js_filter;
+  QJsonArray js_filters;
+  QJsonDocument d;
+  for (int i = 0; i < filters.size(); i++) {
+    std::string filter_name = filters[i]->get_filter_name();
+    if (filter_name != "Inverse" && filter_name != "Original" && filter_name != "Gray") {
+      js_filter["name"] = QString::fromStdString(filter_name);
+      js_filter["brightness"] = filters[i]->get_brightness();
+      js_filter["contrast"] = filters[i]->get_contrast();
+      js_filter["saturation"] = filters[i]->get_saturation();
+      js_filter["clarity"] = filters[i]->get_clarity();
+      js_filter["temperature"] = filters[i]->get_temperature();
+      js_filters.push_back(js_filter); } }
+  d.setArray(js_filters);
+  QString s = d.toJson();
+  file.write(s.toUtf8());
+  file.close(); }
+void MainWindow::set_filters_buttons() {
+  QIcon leftF(QPixmap::fromImage(QtOcv::mat2Image(filters[0]->apply())));
+  pushButton_leftF->setIcon(leftF);
+  pushButton_leftF->setIconSize(pushButton_leftF->icon().actualSize(QSize(pushButton_leftF->size().width() - 10, pushButton_leftF->size().height() - 10)));
+  label_leftFname->setText(QString::fromStdString(filters[0]->get_filter_name()));
+  QIcon centerF(QPixmap::fromImage(QtOcv::mat2Image(filters[1]->apply())));
+  pushButton_centerF->setIcon(centerF);
+  pushButton_centerF->setIconSize(pushButton_centerF->icon().actualSize(QSize(pushButton_centerF->size().width() - 10, pushButton_centerF->size().height() - 10)));
+  label_centerFname->setText(QString::fromStdString(filters[1]->get_filter_name()));
+  QIcon rightF(QPixmap::fromImage(QtOcv::mat2Image(filters[2]->apply())));
+  pushButton_rightF->setIcon(rightF);
+  pushButton_rightF->setIconSize(pushButton_rightF->icon().actualSize(QSize(pushButton_rightF->size().width() - 10, pushButton_rightF->size().height() - 10)));
+  label_rightFname->setText(QString::fromStdString(filters[2]->get_filter_name())); }
+void MainWindow::next_prev_filter(int n) {
+  if (n > 0)
+    filters.next_node();
+  if (n < 0)
+    filters.prev_node(); }
+Mat MainWindow::get_filtered_image(int n) {
+  return filters[n]->apply(); }
+std::string MainWindow::get_filter_name(int n) {
+  return filters[n]->get_filter_name(); }
+void MainWindow::set_deleteF_enabled(std::string filter_name) {
+  if (filter_name == "Inverse" || filter_name == "Original" || filter_name == "Gray")
+    pushButton_deleteF->setEnabled(false);
+  else
+    pushButton_deleteF->setEnabled(true); }
+void MainWindow::back_from_filters() {
+  prepare_image();
+  change_image(QtOcv::image2Mat((*image_info.image_in_proc).toImage()));
+  save_filters();
+  filters.clean();
+  pushButton_toLeft->hide();
+  pushButton_leftF->hide();
+  label_leftFname->hide();
+  pushButton_centerF->hide();
+  label_centerFname->hide();
+  pushButton_rightF->hide();
+  label_rightFname->hide();
+  pushButton_toRight->hide();
+  pushButton_addF->hide();
+  pushButton_deleteF->hide();
+  pushButton_back->hide();
+  pushButton_applyFilter->hide();
+  pushButton_brightness->show();
+  pushButton_contrast->show();
+  pushButton_saturation->show();
+  pushButton_clarity->show();
+  pushButton_temperature->show();
+  pushButton_filters->show();
+  pushButton_left->show();
+  pushButton_right->show(); }
+void MainWindow::delete_filter() {
+  switch (filter_number) {
+  case 0: {
+    filters.pop_head();
+    break; }
+  case 1: {
+    filters.next_node();
+    filters.pop_head();
+    filters.prev_node();
+    break; }
+  case 2: {
+    filters.next_node();
+    filters.next_node();
+    filters.pop_head();
+    filters.prev_node();
+    filters.prev_node();
+    break; } }
+  set_filters_buttons(); }
+void MainWindow::add_filter() {
+  std::string filter_name = FN_W->get_filter_name();
+  filters.push(new CustomFilter(filter_name, QtOcv::image2Mat((*image_info.start_image).toImage()), image_info.brightness, image_info.contrast, image_info.saturation, image_info.clarity, image_info.temperture)); }
+void MainWindow::show_pressed_button() {
+  QString pressed = "background-color: gray";
+  QString not_pressed = "";
+  if (current_process == PROCESSES::BRIGHTNESS)
+    pushButton_brightness->setStyleSheet(pressed);
+  else
+    pushButton_brightness->setStyleSheet(not_pressed);
+  if (current_process == PROCESSES::CONTRAST)
+    pushButton_contrast->setStyleSheet(pressed);
+  else
+    pushButton_contrast->setStyleSheet(not_pressed);
+  if (current_process == PROCESSES::SATURATUIN)
+    pushButton_saturation->setStyleSheet(pressed);
+  else
+    pushButton_saturation->setStyleSheet(not_pressed);
+  if (current_process == PROCESSES::CLARITY)
+    pushButton_clarity->setStyleSheet(pressed);
+  else
+    pushButton_clarity->setStyleSheet(not_pressed);
+  if (current_process == PROCESSES::TEMPERATURE)
+    pushButton_temperature->setStyleSheet(pressed);
+  else
+    pushButton_temperature->setStyleSheet(not_pressed); }
+void MainWindow::set_connections() {
+  QObject::connect(pushButton_New, &QPushButton::clicked, this, [&]()
+                   { QString tmp; start_proc(tmp); });
+  QObject::connect(pushButton_Rec_open_1, &QPushButton::clicked, this, [&]()
+                   { start_proc(pushButton_Rec_open_1->get_image_path()); });
+  QObject::connect(pushButton_Rec_open_2, &QPushButton::clicked, this, [&]()
+                   { start_proc(pushButton_Rec_open_2->get_image_path()); });
+  QObject::connect(pushButton_Rec_open_3, &QPushButton::clicked, this, [&]()
+                   { start_proc(pushButton_Rec_open_3->get_image_path()); });
+  QObject::connect(pushButton_Rec_open_4, &QPushButton::clicked, this, [&]()
+                   { start_proc(pushButton_Rec_open_4->get_image_path()); });
+  QObject::connect(pushButton_Rec_open_5, &QPushButton::clicked, this, [&]()
+                   { start_proc(pushButton_Rec_open_5->get_image_path()); });
+  QObject::connect(pushButton_brightness, &QPushButton::clicked, this, [&]()
+                   {  end_main_proc();
+                        set_curr_proc(PROCESSES::BRIGHTNESS);
+                        show_pressed_button();
+                        set_slider_limits(); 
+                        prepare_image(); });
+  QObject::connect(pushButton_contrast, &QPushButton::clicked, this, [&]()
+                   {  end_main_proc();
+                        set_curr_proc(PROCESSES::CONTRAST);
+                        show_pressed_button();
+                        set_slider_limits();
+                        prepare_image(); });
+  QObject::connect(pushButton_saturation, &QPushButton::clicked, this, [&]()
+                   {  end_main_proc();
+                        set_curr_proc(PROCESSES::SATURATUIN);
+                        show_pressed_button();
+                        set_slider_limits();
+                        prepare_image(); });
+  QObject::connect(pushButton_clarity, &QPushButton::clicked, this, [&]()
+                   {  end_main_proc();
+                        set_curr_proc(PROCESSES::CLARITY);
+                        show_pressed_button();
+                        set_slider_limits();
+                        prepare_image(); });
+  QObject::connect(pushButton_temperature, &QPushButton::clicked, this, [&]()
+                   {  end_main_proc();
+                        set_curr_proc(PROCESSES::TEMPERATURE);
+                        show_pressed_button();
+                        set_slider_limits();
+                        prepare_image(); });
+  QObject::connect(regulation, SIGNAL(sliderMoved(int)), out_amount, SLOT(setNum(int)));
+  QObject::connect(regulation, &QSlider::sliderMoved, this, &MainWindow::main_proc);
+  QObject::connect(actionExport, &QAction::triggered, this, [&]()
+                   {  end_main_proc();
+                        set_curr_proc(PROCESSES::NON); 
+                        save_image(); });
+  QObject::connect(actionNew_image, &QAction::triggered, this, &MainWindow::set_new_image);
+  QObject::connect(pushButton_left, &QPushButton::clicked, this, [&]()
+                   {  end_main_proc();
+                        set_curr_proc(PROCESSES::ROTATION);
+                        show_pressed_button();
+                        prepare_image();
+                        rotate_left(); });
+  QObject::connect(pushButton_right, &QPushButton::clicked, this, [&]()
+                   {  end_main_proc();
+                        set_curr_proc(PROCESSES::ROTATION);
+                        show_pressed_button();
+                        prepare_image();
+                        rotate_right(); });
+  QObject::connect(pushButton_filters, &QPushButton::clicked, this, [&]()
+                   {  end_main_proc();
+                        set_curr_proc(PROCESSES::FILTER);
+                        show_pressed_button();
+                        set_filters();
+                        set_filters_buttons(); });
+  QObject::connect(pushButton_toLeft, &QPushButton::clicked, this, [&]()
+                   {  next_prev_filter(-1);
+                        set_filters_buttons(); });
+  QObject::connect(pushButton_toRight, &QPushButton::clicked, this, [&]()
+                   {  next_prev_filter(1);
+                        set_filters_buttons(); });
+  QObject::connect(pushButton_leftF, &QPushButton::clicked, this, [&]()
+                   { set_filter_number(0);
+                       change_image(get_filtered_image(0)); 
+                       set_deleteF_enabled(get_filter_name(0)); });
+  QObject::connect(pushButton_centerF, &QPushButton::clicked, this, [&]()
+                   { set_filter_number(1);
+                       change_image(get_filtered_image(1)); 
+                       set_deleteF_enabled(get_filter_name(1)); });
+  QObject::connect(pushButton_rightF, &QPushButton::clicked, this, [&]()
+                   { set_filter_number(2);
+                       change_image(get_filtered_image(2)); 
+                       set_deleteF_enabled(get_filter_name(2)); });
+  QObject::connect(pushButton_back, &QPushButton::clicked, this, &MainWindow::back_from_filters);
+  QObject::connect(pushButton_applyFilter, &QPushButton::clicked, this, &MainWindow::apply_filter);
+  QObject::connect(pushButton_deleteF, &QPushButton::clicked, this, &MainWindow::delete_filter);
+  QObject::connect(pushButton_addF, &QPushButton::clicked, this, [&]()
+                   {   FN_W->set_filters(&filters);
+                         FN_W->show(); });
+  QObject::connect(FN_W, &FilterName_window::filter_name_got, this, &MainWindow::add_filter);
+  QObject::connect(actionRussian, &QAction::triggered, this, [&]()
+                   { change_language("ru"); 
+                       actionRussian->setEnabled(false);
+                       actionEnglish->setEnabled(true); 
+                       actionBelarusian->setEnabled(true); });
+  QObject::connect(actionEnglish, &QAction::triggered, this, [&]()
+                   { change_language("en");
+                       actionRussian->setEnabled(true);
+                       actionEnglish->setEnabled(false); 
+                       actionBelarusian->setEnabled(true); });
+  QObject::connect(actionBelarusian, &QAction::triggered, this, [&]()
+                   { change_language("be");
+                       actionRussian->setEnabled(true);
+                       actionEnglish->setEnabled(true); 
+                       actionBelarusian->setEnabled(false); }); }
+void MainWindow::changeEvent(QEvent *e) {
+  if (e->type() == QEvent::LanguageChange) {
+    retranslateUi(this); } }
+void MainWindow::change_language(const char *lng) {
+  if (!qtlangtransl.load("photored_" + QString(lng) + ".")) { } }
+ 
+Файл viewwithoutwheel.h: 
+#ifndef VIEWWITHOUTWHEEL_H
+#define VIEWWITHOUTWHEEL_H
+#include <QGraphicsView>
+class ViewWithoutWheel : public QGraphicsView {
+  Q_OBJECT
+public:
+  explicit ViewWithoutWheel(QWidget *parent = 0) : QGraphicsView(parent) { }
+public slots:
+  virtual void wheelEvent(QWheelEvent *e) override { }
+};
+#endif
+ 
+Файл workerthread.cpp: 
+#include "workerthread.h"
+void MyThread::run() {
+  while (!isInterruptionRequested()) {
+    while (queue.empty()) {
+      if (isInterruptionRequested())
+        return;
+      msleep(10); }
+    Operation *oper_now = queue.front();
+    queue.pop();
+    cv::Mat image = oper_now->exec();
+    emit signalGUI(image);
+    delete oper_now; } }
+void MyThread::push(Operation *oper) {
+  queue.push(oper); }
+ 
+Файл workerthread.h: 
+#ifndef WORKERTHREAD_H
+#define WORKERTHREAD_H
+#include <QThread>
+#include <queue>
+#include "mainwindow.h"
+#include "image_processing.h"
+#include <opencv2/core/core.hpp>
+class MainWindow;
+class Operation;
+class MyThread : public QThread {
+  Q_OBJECT
+public:
+  std::queue<Operation *> queue;
+  MyThread() {}
+  void push(Operation *);
+protected:
+  virtual void run();
+signals:
+  void signalGUI(cv::Mat);
+public slots:
+  void terminateThread() {
+    if (isRunning()) {
+      requestInterruption();
+      wait(); } }
+};
+#endif
+ 
