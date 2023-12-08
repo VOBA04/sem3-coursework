@@ -215,7 +215,7 @@
         <translation>Изображения (*.png *.jpg)</translation>
     </message>
     <message>
-        <location line="+144"/>
+        <location line="+143"/>
         <source>Save File</source>
         <translation>Сохранение</translation>
     </message>

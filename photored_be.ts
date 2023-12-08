@@ -215,7 +215,7 @@
         <translation>Адкрыць файл</translation>
     </message>
     <message>
-        <location line="+144"/>
+        <location line="+143"/>
         <source>Save File</source>
         <translation>Захваць файл</translation>
     </message>

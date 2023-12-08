@@ -103,7 +103,6 @@ void MainWindow::start_proc(QString &QPath)
         graphicsScene = new QGraphicsScene;
         graphicsScene->addItem(pixmap);
         graphicsView_main_im->setScene(graphicsScene);
-        QSize sz = Qpixmap.size();
         pixmap->setPixmap(Qpixmap);
         graphicsView_main_im->fitInView(pixmap, Qt::KeepAspectRatio);
         label_greeting->hide();
