@@ -238,7 +238,6 @@ void MainWindow::save_image()
 
 void MainWindow::set_new_image()
 {
-    save_filters();
     current_process = PROCESSES::NON;
     show_pressed_button();
     image_info.brightness = 0;

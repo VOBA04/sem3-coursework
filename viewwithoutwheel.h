@@ -16,6 +16,12 @@ public slots:
     virtual void wheelEvent(QWheelEvent *e) override
     {
     }
+    virtual void resizeEvent(QResizeEvent *e) override
+    {
+        QGraphicsView::resizeEvent(e);
+        if (scene() != nullptr)
+            fitInView(scene()->items()[0], Qt::KeepAspectRatio);
+    }
 };
 
 #endif

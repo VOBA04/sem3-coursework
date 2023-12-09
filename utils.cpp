@@ -19,40 +19,44 @@ void MainWindow::set_rec_opened_butts()
         d = QJsonDocument::fromJson(s.toUtf8());
         QJsonArray pathes = d.array();
         QJsonValue path;
-        int n = pathes.size();
+        int n = pathes.size(), button_n = 0;
         for (int i = 0; i < n; i++)
         {
             path = pathes[i];
             s = path.toString();
             QPixmap im(s);
-            QIcon but_im(im);
-            switch (i)
+            if (!im.isNull())
             {
-            case 0:
-                pushButton_Rec_open_1->set_image_path(s);
-                pushButton_Rec_open_1->setIcon(but_im);
-                pushButton_Rec_open_1->show();
-                break;
-            case 1:
-                pushButton_Rec_open_2->set_image_path(s);
-                pushButton_Rec_open_2->setIcon(but_im);
-                pushButton_Rec_open_2->show();
-                break;
-            case 2:
-                pushButton_Rec_open_3->set_image_path(s);
-                pushButton_Rec_open_3->setIcon(but_im);
-                pushButton_Rec_open_3->show();
-                break;
-            case 3:
-                pushButton_Rec_open_4->set_image_path(s);
-                pushButton_Rec_open_4->setIcon(but_im);
-                pushButton_Rec_open_4->show();
-                break;
-            case 4:
-                pushButton_Rec_open_5->set_image_path(s);
-                pushButton_Rec_open_5->setIcon(but_im);
-                pushButton_Rec_open_5->show();
-                break;
+                QIcon but_im(im);
+                switch (button_n)
+                {
+                case 0:
+                    pushButton_Rec_open_1->set_image_path(s);
+                    pushButton_Rec_open_1->setIcon(but_im);
+                    pushButton_Rec_open_1->show();
+                    break;
+                case 1:
+                    pushButton_Rec_open_2->set_image_path(s);
+                    pushButton_Rec_open_2->setIcon(but_im);
+                    pushButton_Rec_open_2->show();
+                    break;
+                case 2:
+                    pushButton_Rec_open_3->set_image_path(s);
+                    pushButton_Rec_open_3->setIcon(but_im);
+                    pushButton_Rec_open_3->show();
+                    break;
+                case 3:
+                    pushButton_Rec_open_4->set_image_path(s);
+                    pushButton_Rec_open_4->setIcon(but_im);
+                    pushButton_Rec_open_4->show();
+                    break;
+                case 4:
+                    pushButton_Rec_open_5->set_image_path(s);
+                    pushButton_Rec_open_5->setIcon(but_im);
+                    pushButton_Rec_open_5->show();
+                    break;
+                }
+                button_n++;
             }
         }
     }
@@ -169,26 +173,28 @@ void MainWindow::set_filters()
     filters.push(new Gray(image));
     QFile file;
     file.setFileName("D:\\University\\cs\\sem3\\cursach\\photored\\filters_inform.json");
-    file.open(QIODevice::ReadOnly);
-    QString s;
-    s = file.readAll();
-    file.close();
-    QJsonDocument d;
-    d = QJsonDocument::fromJson(s.toUtf8());
-    QJsonArray js_filters = d.array();
-    QJsonObject js_filter;
-    std::string filter_name;
-    int br, co, st, cl, tmp;
-    for (int i = 0; i < js_filters.size(); i++)
+    if (file.open(QIODevice::ReadOnly))
     {
-        js_filter = js_filters[i].toObject();
-        filter_name = js_filter["name"].toString().toStdString();
-        br = js_filter["brightness"].toInt();
-        co = js_filter["contrast"].toInt();
-        st = js_filter["saturation"].toInt();
-        cl = js_filter["clarity"].toInt();
-        tmp = js_filter["temperature"].toInt();
-        filters.push(new CustomFilter(filter_name, start_image.clone(), br, co, st, cl, tmp));
+        QString s;
+        s = file.readAll();
+        file.close();
+        QJsonDocument d;
+        d = QJsonDocument::fromJson(s.toUtf8());
+        QJsonArray js_filters = d.array();
+        QJsonObject js_filter;
+        std::string filter_name;
+        int br, co, st, cl, tmp;
+        for (int i = 0; i < js_filters.size(); i++)
+        {
+            js_filter = js_filters[i].toObject();
+            filter_name = js_filter["name"].toString().toStdString();
+            br = js_filter["brightness"].toInt();
+            co = js_filter["contrast"].toInt();
+            st = js_filter["saturation"].toInt();
+            cl = js_filter["clarity"].toInt();
+            tmp = js_filter["temperature"].toInt();
+            filters.push(new CustomFilter(filter_name, start_image.clone(), br, co, st, cl, tmp));
+        }
     }
 }
 
@@ -318,6 +324,8 @@ void MainWindow::delete_filter()
     }
     }
     set_filters_buttons();
+    prepare_image();
+    change_image(QtOcv::image2Mat((*image_info.image_in_proc).toImage()));
 }
 
 void MainWindow::add_filter()
