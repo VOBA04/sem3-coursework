@@ -24,7 +24,7 @@
         <translation>Имя фильтра</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+22"/>
         <location/>
         <location filename="build/photored_autogen/include/ui_set_FilterName_window.h" line="+1"/>
         <source>Cansel</source>

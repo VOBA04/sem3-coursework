@@ -75,8 +75,16 @@ PROCESSES MainWindow::get_curr_proc()
 void MainWindow::set_slider_limits()
 {
     PROCESSES n = get_curr_proc();
-    regulation->setMinimum(-100);
-    regulation->setMaximum(100);
+    if (n == PROCESSES::CLARITY)
+    {
+        regulation->setMinimum(0);
+        regulation->setMaximum(100);
+    }
+    else
+    {
+        regulation->setMinimum(-100);
+        regulation->setMaximum(100);
+    }
     switch (n)
     {
     case PROCESSES::BRIGHTNESS:
