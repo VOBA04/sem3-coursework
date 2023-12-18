@@ -69,7 +69,7 @@ MainWindow::~MainWindow()
     delete graphicsScene;
 }
 
-void MainWindow::change_image(cv::Mat cv_im)
+void MainWindow::change_image(cv::Mat cv_im) // изменение отображаемого изображения
 {
     QPixmap Qpixmap = QPixmap::fromImage(QtOcv::mat2Image(cv_im));
     pixmap->setPixmap(Qpixmap);
@@ -77,7 +77,7 @@ void MainWindow::change_image(cv::Mat cv_im)
     graphicsView_main_im->fitInView(pixmap, Qt::KeepAspectRatio);
 }
 
-void MainWindow::start_proc(QString &QPath)
+void MainWindow::start_proc(QString &QPath) // открытие изображения и сохранение его в программу
 {
     QString Qpath_from;
     if (QPath.isEmpty())
@@ -152,7 +152,7 @@ void MainWindow::start_proc(QString &QPath)
     }
 }
 
-void MainWindow::main_proc(int value)
+void MainWindow::main_proc(int value) // обработка изображения
 {
     PROCESSES proc = get_curr_proc();
     QPixmap image = (*image_info.image_in_proc);
@@ -186,7 +186,7 @@ void MainWindow::main_proc(int value)
     }
 }
 
-void MainWindow::end_main_proc()
+void MainWindow::end_main_proc() // сохранения измененного значения
 {
     PROCESSES proc = get_curr_proc();
     int value = regulation->value();
@@ -220,7 +220,7 @@ void MainWindow::end_main_proc()
     }
 }
 
-void MainWindow::save_image()
+void MainWindow::save_image() // сохранения изображения на компьютер
 {
     QString filter = "PNG(*.png);;JPG(*.jpg)", selected_filter;
     QString filename;
@@ -236,7 +236,7 @@ void MainWindow::save_image()
     }
 }
 
-void MainWindow::set_new_image()
+void MainWindow::set_new_image() // возвращение к окну открытия изображения
 {
     current_process = PROCESSES::NON;
     show_pressed_button();
@@ -282,7 +282,7 @@ void MainWindow::set_new_image()
     delete graphicsScene;
 }
 
-void MainWindow::apply_filter()
+void MainWindow::apply_filter() // применение фильтра
 {
     std::string filter_name = filters[filter_number]->get_filter_name();
     if (filter_name == "Inverse")
@@ -315,7 +315,7 @@ void MainWindow::apply_filter()
     back_from_filters();
 }
 
-void MainWindow::rotate_left()
+void MainWindow::rotate_left() // поворот влево на 90
 {
     Mat image = QtOcv::image2Mat(image_info.image_in_proc->toImage());
     Mat start_image = QtOcv::image2Mat(image_info.start_image->toImage());
@@ -326,7 +326,7 @@ void MainWindow::rotate_left()
     change_image(image);
 }
 
-void MainWindow::rotate_right()
+void MainWindow::rotate_right() // поворот вправо на 90
 {
     Mat image = QtOcv::image2Mat(image_info.image_in_proc->toImage());
     Mat start_image = QtOcv::image2Mat(image_info.start_image->toImage());

@@ -6,7 +6,7 @@
 #include <QString>
 #include <QFile>
 
-void MainWindow::set_rec_opened_butts()
+void MainWindow::set_rec_opened_butts() // задает кнопкам ранее открытые изображения
 {
     QFile file;
     file.setFileName("D:\\University\\cs\\sem3\\cursach\\photored\\recently_opened.json");
@@ -72,7 +72,7 @@ PROCESSES MainWindow::get_curr_proc()
     return current_process;
 }
 
-void MainWindow::set_slider_limits()
+void MainWindow::set_slider_limits() // задает пределы ползунка в зависимости от процесса
 {
     PROCESSES n = get_curr_proc();
     if (n == PROCESSES::CLARITY)
@@ -120,7 +120,7 @@ void MainWindow::set_slider_limits()
     }
 }
 
-void MainWindow::prepare_image()
+void MainWindow::prepare_image() // применяет к начальному изображению сохраненные данные для последующей работы
 {
     QPixmap image = *(image_info.start_image);
     if (current_process != PROCESSES::BRIGHTNESS)
@@ -479,7 +479,7 @@ void MainWindow::set_connections()
                        actionBelarusian->setEnabled(false); });
 }
 
-void MainWindow::changeEvent(QEvent *e)
+void MainWindow::changeEvent(QEvent *e) // отлавливает изменение языка
 {
     if (e->type() == QEvent::LanguageChange)
     {
@@ -487,7 +487,7 @@ void MainWindow::changeEvent(QEvent *e)
     }
 }
 
-void MainWindow::change_language(const char *lng)
+void MainWindow::change_language(const char *lng) // изменияет язык приложения
 {
     if (!qtlangtransl.load("photored_" + QString(lng) + "."))
     {

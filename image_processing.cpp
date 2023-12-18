@@ -1,12 +1,12 @@
 #include "image_processing.h"
 
-Mat Oper_brightness::exec()
+Mat Oper_brightness::exec() // яркость
 {
     image.convertTo(image, -1, 1, value);
     return image;
 }
 
-Mat Oper_contrast::exec()
+Mat Oper_contrast::exec() // контрастность
 {
     double alpha = 1;
     alpha += value / 100.0;
@@ -14,7 +14,7 @@ Mat Oper_contrast::exec()
     return image;
 }
 
-Mat Oper_saturation::exec()
+Mat Oper_saturation::exec() // насыщенность
 {
     cvtColor(image, image, COLOR_BGR2HSV);
     std::vector<Mat> channels;
@@ -27,7 +27,7 @@ Mat Oper_saturation::exec()
     return image;
 }
 
-Mat Oper_clarity::exec()
+Mat Oper_clarity::exec() // четкость
 {
     if (value > 0)
     {
@@ -41,7 +41,7 @@ Mat Oper_clarity::exec()
     return image;
 }
 
-Mat Oper_temperature::exec()
+Mat Oper_temperature::exec() // температура
 {
     double gamma = 1;
     gamma += abs(value) / 100.0;

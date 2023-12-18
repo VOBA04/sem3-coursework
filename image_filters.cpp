@@ -12,7 +12,7 @@ Mat Filter::apply()
 
 Filter::~Filter() {}
 
-Inverse::Inverse(Mat image)
+Inverse::Inverse(Mat image) // инверсирует изображение
 {
     name = "Inverse";
     Mat max255 = image.clone();
@@ -26,7 +26,7 @@ Original::Original(Mat image)
     name = "Original";
 }
 
-Gray::Gray(Mat image)
+Gray::Gray(Mat image) // делает изображение серым, меняя каналы на серые
 {
     this->image = image;
     name = "Gray";
