@@ -2,7 +2,6 @@
 #define MAINWINDOW_H
 
 #include "MyRing.h"
-#include "cvmatandqimage.h"
 #include "image_filters.h"
 #include "set_FilterName_window.h"
 #include "ui_mainwindow.h"
@@ -15,14 +14,13 @@
 #include <QJsonValue>
 #include <QMainWindow>
 #include <QTranslator>
-#include <filesystem>
 #include <opencv2/core/core.hpp>
 #include <string>
 
 enum class PROCESSES {
   BRIGHTNESS,
   CONTRAST,
-  SATURATUIN,
+  SATURATION,
   CLARITY,
   TEMPERATURE,
   ROTATION,
@@ -31,8 +29,6 @@ enum class PROCESSES {
 };
 
 enum class FILTER { INVERSE, ORIGINAL, GRAY, CUSTOM };
-
-namespace fs = std::filesystem;
 
 class MyThread;
 

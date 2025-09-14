@@ -1,3 +1,4 @@
+#include "cvmatandqimage.h"
 #include "mainwindow.h"
 #include <QCoreApplication>
 #include <QDir>
@@ -95,7 +96,7 @@ void MainWindow::set_slider_limits() // задает пределы ползун
     out_amount->setNum(image_info.contrast);
     break;
   }
-  case PROCESSES::SATURATUIN: {
+  case PROCESSES::SATURATION: {
     regulation->setValue(image_info.saturation);
     out_amount->setNum(image_info.saturation);
     break;
@@ -130,7 +131,7 @@ void MainWindow::prepare_image() // применяет к начальному �
     Oper_contrast oper(image_info.contrast, QtOcv::image2Mat(image.toImage()));
     image = QPixmap::fromImage(QtOcv::mat2Image(oper.exec()));
   }
-  if (current_process != PROCESSES::SATURATUIN) {
+  if (current_process != PROCESSES::SATURATION) {
     Oper_saturation oper(image_info.saturation,
                          QtOcv::image2Mat(image.toImage()));
     image = QPixmap::fromImage(QtOcv::mat2Image(oper.exec()));
@@ -354,7 +355,7 @@ void MainWindow::show_pressed_button() {
     pushButton_contrast->setStyleSheet(pressed);
   else
     pushButton_contrast->setStyleSheet(not_pressed);
-  if (current_process == PROCESSES::SATURATUIN)
+  if (current_process == PROCESSES::SATURATION)
     pushButton_saturation->setStyleSheet(pressed);
   else
     pushButton_saturation->setStyleSheet(not_pressed);
@@ -404,7 +405,7 @@ void MainWindow::set_connections() {
   });
   QObject::connect(pushButton_saturation, &QPushButton::clicked, this, [&]() {
     end_main_proc();
-    set_curr_proc(PROCESSES::SATURATUIN);
+    set_curr_proc(PROCESSES::SATURATION);
     show_pressed_button();
     set_slider_limits();
     prepare_image();

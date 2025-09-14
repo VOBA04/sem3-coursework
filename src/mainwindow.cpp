@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "cvmatandqimage.h"
 #include <QDir>
 #include <QStandardPaths>
 
@@ -168,7 +169,7 @@ void MainWindow::main_proc(int value) // обработка изображени
     mythread->push(new Oper_contrast(value, QtOcv::image2Mat(image.toImage())));
     break;
   }
-  case PROCESSES::SATURATUIN: {
+  case PROCESSES::SATURATION: {
     mythread->push(
         new Oper_saturation(value, QtOcv::image2Mat(image.toImage())));
     break;
@@ -202,7 +203,7 @@ void MainWindow::end_main_proc() // сохранения измененного 
     image_info.contrast = value;
     break;
   }
-  case PROCESSES::SATURATUIN: {
+  case PROCESSES::SATURATION: {
     image_info.saturation = value;
     break;
   }
